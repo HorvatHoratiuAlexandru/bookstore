@@ -1,10 +1,13 @@
 package com.horvat.bookstore.book;
 
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class AuthorModel {
@@ -16,4 +19,6 @@ public class AuthorModel {
     @Column
     private String name;
 
+    @ManyToMany(mappedBy = "authors")
+    private Set<BookModel> books;
 }

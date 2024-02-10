@@ -1,6 +1,12 @@
 package com.horvat.bookstore.book;
 
 import java.util.List;
+import java.util.Set;
+
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
+
+import com.horvat.bookstore.book.wishlist.WishListModel;
+import com.horvat.bookstore.order.ItemModel;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -10,8 +16,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
-@Entity
+
+@Entity(name = "book")
 public class BookModel {
 
     @Id
@@ -31,7 +42,20 @@ public class BookModel {
 
     @ElementCollection(targetClass = TagModel.class)
     @Enumerated(EnumType.STRING)
-    private List<TagModel> tags;
+    private Set<TagModel> tags;
     
+    @OneToMany(mappedBy = "book")
+    private Set<ItemModel> items;
+
+    @ManyToMany(mappedBy = "books")
+    private Set<WishListModel> wishlists;
+
+    @ManyToMany
+    @JoinTable(
+        name = "book_authors",
+        joinColumns = @JoinColumn(name = "author_id"),
+        inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<AuthorModel> authors;
     
 }
