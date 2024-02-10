@@ -17,9 +17,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity(name = "book")
+@Setter
+@Getter
 public class BookModel {
 
     @Id
