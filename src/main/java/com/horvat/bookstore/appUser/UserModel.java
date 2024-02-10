@@ -1,6 +1,5 @@
 package com.horvat.bookstore.appUser;
 
-import java.util.List;
 import java.util.Set;
 
 import com.horvat.bookstore.book.wishlist.WishListModel;
@@ -14,8 +13,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity(name = "users")
+@Setter
+@Getter
 public class UserModel {
     @Id
     @GeneratedValue
@@ -32,6 +35,8 @@ public class UserModel {
     private String address;
     @Column
     private String password;
+    @Column
+    private Boolean active;
 
     @OneToMany(mappedBy = "user")
     private Set<OrderModel> orders;

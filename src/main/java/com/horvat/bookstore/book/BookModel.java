@@ -1,9 +1,6 @@
 package com.horvat.bookstore.book;
 
-import java.util.List;
 import java.util.Set;
-
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 
 import com.horvat.bookstore.book.wishlist.WishListModel;
 import com.horvat.bookstore.order.ItemModel;

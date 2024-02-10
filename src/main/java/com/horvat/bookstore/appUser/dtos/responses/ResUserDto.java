@@ -12,4 +12,5 @@ public class ResUserDto {
     private RoleModel role;
     private String fullName;
     private String email;
+    private Boolean active;
 }
