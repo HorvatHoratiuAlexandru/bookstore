@@ -1,5 +1,7 @@
 package com.horvat.bookstore.appUser.dtos.requests;
 
+import org.springframework.beans.BeanUtils;
+
 import com.horvat.bookstore.appUser.UserModel;
 
 import lombok.Getter;
@@ -13,7 +15,11 @@ public class Create {
     private String password;
     private String repeatPassword;
 
-    public UserModel getEntityFromDTO(Create userDto){
-        return new UserModel();
+    public static UserModel getEntity(Create userDto){
+        UserModel response = new UserModel();
+
+        BeanUtils.copyProperties(userDto, response);
+
+        return response;
     }
 }

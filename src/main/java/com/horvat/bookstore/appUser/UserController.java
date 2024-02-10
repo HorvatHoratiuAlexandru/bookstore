@@ -1,5 +1,6 @@
 package com.horvat.bookstore.appUser;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,17 +22,23 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController()
 @RequestMapping("/user")
 public class UserController {
+    private final UserService userService;
+
+    @Autowired
+    UserController(UserService userService){
+        this.userService = userService;
+    }
 
     @GetMapping("/{id}")
     public ResUserDto getUserById(@PathVariable Integer id){
-        ResUserDto response = new ResUserDto();
+        ResUserDto response = this.userService.getUser(id);
         
         return response;
     }
 
     @PostMapping("/register")
-    public Created postMethodName(@RequestBody Create userDto) {
-        Created response = new Created();
+    public Created register(@RequestBody Create userDto) {
+        Created response = this.userService.createUser(userDto);
 
         return response;
     }
@@ -45,8 +52,15 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResUserDto putUser(@PathVariable Integer id, @RequestBody ReqUserDto userDto) {
-        ResUserDto response = new ResUserDto();
+        ResUserDto response = this.userService.updateUser(id, userDto);
         
+        return response;
+    }
+
+    @PostMapping("/activate/{activationCode}")
+    public ResUserDto activateAccount(@PathVariable String activationCode){
+        ResUserDto response = this.userService.activateUser(activationCode);
+
         return response;
     }
     

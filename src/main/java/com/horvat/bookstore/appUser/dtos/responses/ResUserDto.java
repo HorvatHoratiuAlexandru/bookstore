@@ -1,6 +1,9 @@
 package com.horvat.bookstore.appUser.dtos.responses;
 
+import org.springframework.beans.BeanUtils;
+
 import com.horvat.bookstore.appUser.RoleModel;
+import com.horvat.bookstore.appUser.UserModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,4 +16,11 @@ public class ResUserDto {
     private String fullName;
     private String email;
     private Boolean active;
+
+    public static ResUserDto fromEntity(UserModel entity){
+        ResUserDto response = new ResUserDto();
+        BeanUtils.copyProperties(entity, response);
+
+        return response;
+    }
 }
