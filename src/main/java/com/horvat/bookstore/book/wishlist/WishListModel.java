@@ -1,4 +1,4 @@
-package com.horvat.bookstore.wishlist;
+package com.horvat.bookstore.book.wishlist;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
