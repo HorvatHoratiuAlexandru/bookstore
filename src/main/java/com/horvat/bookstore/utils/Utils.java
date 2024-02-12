@@ -1,6 +1,7 @@
 package com.horvat.bookstore.utils;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -11,4 +12,10 @@ public class Utils {
 
         return util.getTitlesFromFiles(path);
     }
+
+     public Map<String, List<String>> getAuthorsFromFiles(String path){
+        FileUtils util = new FileUtils();
+
+        return util.getAuthorsFromFiles(path);
+     }
 }
