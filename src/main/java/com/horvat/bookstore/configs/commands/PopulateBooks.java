@@ -1,5 +1,6 @@
 package com.horvat.bookstore.configs.commands;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -75,6 +76,8 @@ public class PopulateBooks implements CommandLineRunner {
                 book.setDescription("lorem ipsum abc");
                 book.setPageNumber(100);
                 book.setTags(tags);
+                book.setPrice(utils.getRandomBookPrice());
+                book.setStock(random.nextInt(10));
 
 
                 books.add(book);
@@ -120,7 +123,5 @@ public class PopulateBooks implements CommandLineRunner {
             System.out.println("Skip Seeding");
         }
     }
-
-
 
 }
