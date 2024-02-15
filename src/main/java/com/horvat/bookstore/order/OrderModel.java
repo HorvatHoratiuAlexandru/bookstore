@@ -5,6 +5,7 @@ import java.util.Set;
 import com.horvat.bookstore.appUser.UserModel;
 import com.horvat.bookstore.promoCode.PromoCodeModel;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,13 +13,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity(name = "orders")
+@Getter
+@Setter
 public class OrderModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isProcessed;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -27,8 +34,7 @@ public class OrderModel {
     @OneToMany(mappedBy = "order")
     private Set<ItemModel> items;
 
-    @OneToOne
-    @JoinColumn(name = "promo_id")
+    @ManyToOne
     private PromoCodeModel promoCode;
  
 }

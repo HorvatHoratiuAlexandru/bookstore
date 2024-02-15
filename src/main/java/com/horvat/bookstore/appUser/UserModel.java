@@ -43,6 +43,5 @@ public class UserModel {
 
     @OneToOne(mappedBy = "user")
     private WishListModel wishlist;
-
     
 }

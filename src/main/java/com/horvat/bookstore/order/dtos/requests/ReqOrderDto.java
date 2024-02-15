@@ -7,9 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReqOrderDto {
-    private Integer id;
     private String address;
-    private String date;
-    private Map<String, Float> items;
-    private Float totalPrice;
+    private String promoCode;
+    //bookId and qty
+    private Map<Integer, Integer> items;
 }
