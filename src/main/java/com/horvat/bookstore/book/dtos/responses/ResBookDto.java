@@ -7,7 +7,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.horvat.bookstore.book.AuthorModel;
 import com.horvat.bookstore.book.BookModel;
-import com.horvat.bookstore.book.Tag;
+import com.horvat.bookstore.book.TagModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,18 +24,22 @@ public class ResBookDto {
     private Integer stock;
 
     private List<String> authors;
-    private List<Tag> tags;
+    private List<String> tags;
 
+    
     public static ResBookDto fromEntity(BookModel book){
         ResBookDto response = new ResBookDto();
         if(book==null) return response;
-        
+
+        response.setAuthors(new LinkedList<>());
+        response.setTags(new LinkedList<>());    
         BeanUtils.copyProperties(book, response);
         for(AuthorModel a : book.getAuthors()){
             response.getAuthors().add(a.getName());
         }
-
-        
+        for(TagModel t : book.getTags()){
+            response.getTags().add(t.getName());
+        }
 
         return response;
     }

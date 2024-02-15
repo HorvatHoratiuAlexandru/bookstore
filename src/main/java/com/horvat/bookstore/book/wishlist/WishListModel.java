@@ -5,7 +5,6 @@ import java.util.Set;
 import com.horvat.bookstore.appUser.UserModel;
 import com.horvat.bookstore.book.BookModel;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

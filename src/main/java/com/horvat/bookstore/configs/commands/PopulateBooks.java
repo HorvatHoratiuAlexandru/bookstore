@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.horvat.bookstore.book.AuthorModel;
 import com.horvat.bookstore.book.AuthorRepository;
@@ -40,6 +41,7 @@ public class PopulateBooks implements CommandLineRunner {
     private TagsRepository tagsRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception { 
         if(seeding == true){
             List<String> titles = utils.getTitlesFromFiles(this.bookSampleFolder);
@@ -53,17 +55,18 @@ public class PopulateBooks implements CommandLineRunner {
                 Random random = new Random();
                 Integer iterNum = random.nextInt(4) + 5;
                 for(int i = 0; i<iterNum.intValue(); i++){
-                    int rv = random.nextInt(10);
+                    int rv = random.nextInt(22);
                     Tag[] allTags = Tag.values();
 
-                    Optional<TagModel> tagExists = this.tagsRepository.findByName(allTags[rv+i].toString());
-                    if(tagExists.isPresent()){
-                        continue;
+                    Optional<TagModel> tagExists = this.tagsRepository.findByName(allTags[rv].toString());
+                    if(!tagExists.isPresent()){
+                        TagModel randomTag = new TagModel();
+                        randomTag.setName(allTags[rv].toString());
+                        tags.add(randomTag);
+                    }else{
+                        tags.add(tagExists.get());
                     }
-
-                    TagModel randomTag = new TagModel();
-                    randomTag.setName(allTags[rv+i].toString());
-                    tags.add(randomTag);
+                    
                 }
                 this.tagsRepository.saveAll(tags);
                 
@@ -98,11 +101,17 @@ public class PopulateBooks implements CommandLineRunner {
 
                         if(existentAuthor.isPresent()){
                             book.getAuthors().add(existentAuthor.get());
+                            existentAuthor.get().getBooks().add(book);
+                            this.authorRepository.save(existentAuthor.get());
                         }else{
                             AuthorModel newAuthor = new AuthorModel();
-                            newAuthor.setName(a);
-                            newAuthor = this.authorRepository.save(newAuthor);
+                            newAuthor.setBooks(new HashSet<>());
                             book.getAuthors().add(newAuthor);
+                            newAuthor.getBooks().add(book);
+
+                            newAuthor.setName(a);
+                            this.authorRepository.save(newAuthor);
+                            
                         }
                     }
                 }
