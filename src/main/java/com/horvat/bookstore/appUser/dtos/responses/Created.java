@@ -16,7 +16,12 @@ public class Created {
 
     public static Created fromEntity(UserModel entity){
         Created createdUser = new Created();
-
+        
+        if(entity==null){
+            createdUser.registered = false;
+            return createdUser;
+        }
+        
         BeanUtils.copyProperties(entity, createdUser);
         createdUser.registered = true;
 

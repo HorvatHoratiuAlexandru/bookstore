@@ -17,6 +17,8 @@ public class Create {
 
     public static UserModel getEntity(Create userDto){
         UserModel response = new UserModel();
+        
+        if(userDto==null) return response;
 
         BeanUtils.copyProperties(userDto, response);
 

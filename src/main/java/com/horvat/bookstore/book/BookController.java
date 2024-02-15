@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.horvat.bookstore.book.dtos.responses.ResBookDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,15 +16,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/book")
 public class BookController {
+    @Autowired
+    private BookService bookService;
 
-    // return all books or all books based on filter
+    // return all books or all books based on tags
     @GetMapping
-    public List<ResBookDto> filterBooks(@RequestParam(value = "filter", required = false) List<String> filters) {
-        List<ResBookDto> response = new ArrayList<>();
+    public List<ResBookDto> filterBooks(@RequestParam(value = "tags", required = false) List<String> tags) {
+        List<ResBookDto> response = this.bookService.filterBooksByTags(tags);
         
-        if(filters != null){
-            for(String filter:filters){
-                System.out.println(filter);
+        if(tags != null){
+            for(String tag:tags){
+                System.out.println(tag);
             }
         }
 
@@ -33,7 +35,7 @@ public class BookController {
 
     @GetMapping("/{id}")
     public ResBookDto getBook(@PathVariable Integer id) {
-        ResBookDto response = new ResBookDto();
+        ResBookDto response = this.bookService.getBookById(id);
 
         return response;
     }

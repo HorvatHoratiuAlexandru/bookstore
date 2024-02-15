@@ -35,7 +35,6 @@ public class OrderController {
         return response;
     }
 
-    
     @PostMapping("/user/{id}/orders")
     public OrderRegistered createOrder(@PathVariable Integer id, @RequestBody ReqOrderDto order) {
         OrderRegistered response = new OrderRegistered();

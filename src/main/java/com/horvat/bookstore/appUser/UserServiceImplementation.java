@@ -53,6 +53,9 @@ public class UserServiceImplementation implements UserService {
         }
 
         UserModel user = userOptional.get();
+
+        if(updateDto == null) return ResUserDto.fromEntity(user);
+        
         BeanUtils.copyProperties(updateDto, user);
 
         return ResUserDto.fromEntity(this.userRepository.save(user));

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import com.horvat.bookstore.book.AuthorModel;
 import com.horvat.bookstore.book.AuthorRepository;
 import com.horvat.bookstore.book.BookModel;
 import com.horvat.bookstore.book.BookRepository;
+import com.horvat.bookstore.book.Tag;
 import com.horvat.bookstore.book.TagModel;
+import com.horvat.bookstore.book.TagsRepository;
 import com.horvat.bookstore.utils.Utils;
 
 @Component
@@ -33,6 +36,8 @@ public class PopulateBooks implements CommandLineRunner {
     private BookRepository bookRepository;
     @Autowired
     private AuthorRepository authorRepository;
+    @Autowired
+    private TagsRepository tagsRepository;
 
     @Override
     public void run(String... args) throws Exception { 
@@ -41,11 +46,27 @@ public class PopulateBooks implements CommandLineRunner {
             Map<String, List<String>> authors = utils.getAuthorsFromFiles(this.bookAuthorFolder);
 
             List<BookModel> books = new ArrayList<>();
-            Set<TagModel> tags = new HashSet<>();
-            tags.add(TagModel.ADVENTURE);
-            tags.add(TagModel.CLASSICS);
-
+            
             for(String title: titles){
+                Set<TagModel> tags = new HashSet<>();
+
+                Random random = new Random();
+                Integer iterNum = random.nextInt(4) + 5;
+                for(int i = 0; i<iterNum.intValue(); i++){
+                    int rv = random.nextInt(10);
+                    Tag[] allTags = Tag.values();
+
+                    Optional<TagModel> tagExists = this.tagsRepository.findByName(allTags[rv+i].toString());
+                    if(tagExists.isPresent()){
+                        continue;
+                    }
+
+                    TagModel randomTag = new TagModel();
+                    randomTag.setName(allTags[rv+i].toString());
+                    tags.add(randomTag);
+                }
+                this.tagsRepository.saveAll(tags);
+                
                 BookModel book = new BookModel();
                 book.setTitle(title);
                 book.setDescription("lorem ipsum abc");

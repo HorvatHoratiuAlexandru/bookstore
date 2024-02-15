@@ -19,7 +19,7 @@ public class ResUserDto {
 
     public static ResUserDto fromEntity(UserModel entity){
         ResUserDto response = new ResUserDto();
-        BeanUtils.copyProperties(entity, response);
+        if(!(entity==null)) BeanUtils.copyProperties(entity, response);
 
         return response;
     }

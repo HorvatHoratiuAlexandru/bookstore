@@ -1,8 +1,13 @@
 package com.horvat.bookstore.book.dtos.responses;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import com.horvat.bookstore.book.TagModel;
+import org.springframework.beans.BeanUtils;
+
+import com.horvat.bookstore.book.AuthorModel;
+import com.horvat.bookstore.book.BookModel;
+import com.horvat.bookstore.book.Tag;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +23,34 @@ public class ResBookDto {
     private Float price;
     private Integer stock;
 
-    private List<TagModel> tags;
+    private List<String> authors;
+    private List<Tag> tags;
+
+    public static ResBookDto fromEntity(BookModel book){
+        ResBookDto response = new ResBookDto();
+        if(book==null) return response;
+        
+        BeanUtils.copyProperties(book, response);
+        for(AuthorModel a : book.getAuthors()){
+            response.getAuthors().add(a.getName());
+        }
+
+        
+
+        return response;
+    }
+
+    public static List<ResBookDto> fromIterableEntity(List<BookModel> books){
+        List<ResBookDto> response = new LinkedList<>();
+
+        if(books.isEmpty()){
+            return null;
+        }
+
+        for(BookModel b: books){
+            response.add(ResBookDto.fromEntity(b));
+        }
+
+        return response;
+    }
 }

@@ -1,15 +1,13 @@
 package com.horvat.bookstore.book;
 
+import java.util.Objects;
 import java.util.Set;
 
 import com.horvat.bookstore.book.wishlist.WishListModel;
 import com.horvat.bookstore.order.ItemModel;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,8 +40,12 @@ public class BookModel {
     @Column
     private Integer stock;
 
-    @ElementCollection(targetClass = TagModel.class)
-    @Enumerated(EnumType.STRING)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "book_tags",
+        joinColumns = @JoinColumn(name = "book_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
     private Set<TagModel> tags;
     
     @OneToMany(mappedBy = "book")
@@ -55,9 +57,21 @@ public class BookModel {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "book_authors",
-        joinColumns = @JoinColumn(name = "author_id"),
-        inverseJoinColumns = @JoinColumn(name = "book_id")
+        joinColumns = @JoinColumn(name = "book_id"),
+        inverseJoinColumns = @JoinColumn(name = "authors_id")
     )
     private Set<AuthorModel> authors;
     
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        BookModel book = (BookModel) obj;
+        return this.title.equals(book.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
+    }
 }

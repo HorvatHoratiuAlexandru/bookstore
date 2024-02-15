@@ -1,7 +1,6 @@
 package com.horvat.bookstore.utils;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -47,8 +46,8 @@ public class FileUtils {
         for(File file:files){
             List<String> bookAuthors = new LinkedList<>();
             
-            try{
-                Scanner fileReader = new Scanner(file);
+            try(Scanner fileReader = new Scanner(file)){
+                //Scanner fileReader = new Scanner(file);
                 if(fileReader.hasNext()){
                     String line = fileReader.nextLine();
                     String[] splitedLine = line.split("\\$");
@@ -61,9 +60,7 @@ public class FileUtils {
                     }
 
                     authors.put(title, bookAuthors);
-                }
-
-                
+                }      
             } catch (Exception e){
                 System.out.println("from file Utils");
                 System.out.println(e.toString());
