@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.horvat.bookstore.appUser.UserModel;
 import com.horvat.bookstore.appUser.UserRepository;
+import com.horvat.bookstore.appUser.exceptions.UserNotFoundException;
 import com.horvat.bookstore.order.dtos.requests.ReqOrderDto;
 import com.horvat.bookstore.order.dtos.requests.ReqOrderProcessing;
 import com.horvat.bookstore.order.dtos.responses.OrderRegistered;
+import com.horvat.bookstore.order.exception.OrderNotFound;
 import com.horvat.bookstore.promoCode.PromoCodeModel;
 import com.horvat.bookstore.promoCode.PromoCodeRepository;
+import com.horvat.bookstore.promoCode.exception.PromoCodeNotFound;
 
 @Service
 public class OrderServiceImplementation implements OrderService{
@@ -35,7 +38,9 @@ public class OrderServiceImplementation implements OrderService{
             // Should be good it gets checked in controller and should also be checked in FE
             promoCodeOptional = Optional.ofNullable(promoCodeRepository.findByCode(orderDto.getPromoCode()).get(0));
 
-            // TODO: throw a server error if optional is null
+            StringBuilder sb = new StringBuilder();
+            sb.append("Promo Code ").append(orderDto.getPromoCode()).append(" Does Not Exist");
+            throw new PromoCodeNotFound(sb.toString());
         }
 
         Float totalPrice = (promoCodeOptional.isPresent()) ? this.calcOrderTotal(items, promoCodeOptional.get().getDiscount()) : this.calcOrderTotal(items, 1.0f);
@@ -46,16 +51,17 @@ public class OrderServiceImplementation implements OrderService{
 
     @Override
     public OrderRegistered processOrder(Integer id, Integer orderId, ReqOrderProcessing billingDto) {
-        //TODO: verify biling data?
         Optional<OrderModel> orderOptional = this.orderRepository.findById(orderId);
 
         if(!orderOptional.isPresent()){
-            // TODO: throw a server error
+            StringBuilder sb = new StringBuilder();
+            sb.append("Order:").append(orderId.toString()).append("Not Found Please Try Again");
+            throw new OrderNotFound(sb.toString());
         }
-
+        // TODO: verify biling data?
+        // TODO: push to a rabbitmq queue that sends emails to the users
         orderOptional.get().setIsProcessed(true);
         this.orderRepository.save(orderOptional.get());
-        // TODO: push to a rabbitmq queue that sends emails to the users
         
         return OrderRegistered.fromEntity(orderOptional.get());
     }
@@ -71,27 +77,37 @@ public class OrderServiceImplementation implements OrderService{
 
     private OrderModel create(List<ItemModel> items, Optional<PromoCodeModel> promoCode, Float totalPrice, Integer id, String address){
         OrderModel order = new OrderModel();
+
         for(ItemModel item : items){
             item.setOrder(order);
         }
+
         order.setItems(new HashSet<ItemModel>(items));
+        
         if(promoCode.isPresent()){
             order.setPromoCode(promoCode.get());
             promoCode.get().getOrders().add(order);
         }
+
         order.setAddress(address);
         order.setIsProcessed(false);
+
         Optional<UserModel> userOptional = this.userRepository.findById(id);
+
         if(userOptional.isPresent()){
             order.setUser(userOptional.get());
         }else{
-            //TODO: throw server error or user not found
+            StringBuilder sb = new StringBuilder();
+            sb.append("User with Id: ").append(id.toString()).append(" NotFound");
+            throw new UserNotFoundException(sb.toString());
         }
+
         order.setPrice(totalPrice);
 
         userOptional.get().getOrders().add(order);
 
         order = this.orderRepository.save(order);
+        
         return order;
     }
 

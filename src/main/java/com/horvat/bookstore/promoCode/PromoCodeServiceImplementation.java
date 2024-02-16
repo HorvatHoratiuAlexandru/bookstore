@@ -10,8 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.horvat.bookstore.appUser.UserModel;
 import com.horvat.bookstore.appUser.UserRepository;
+import com.horvat.bookstore.appUser.exceptions.UserNotFoundException;
 import com.horvat.bookstore.order.OrderModel;
 import com.horvat.bookstore.promoCode.dtos.responses.ResPromoDto;
+import com.horvat.bookstore.promoCode.exception.PromoCodeAlreadyUsed;
+import com.horvat.bookstore.promoCode.exception.PromoCodeExpired;
+import com.horvat.bookstore.promoCode.exception.PromoCodeNotFound;
+
 
 @Service
 public class PromoCodeServiceImplementation implements PromoCodeService {
@@ -23,8 +28,9 @@ public class PromoCodeServiceImplementation implements PromoCodeService {
     @Override
     public ResPromoDto validateCode(Integer id, String promoCode) {
         if(this.ordersContainCode(promoCode, this.getUserOrders(id))){
-            //TODO: throw code already used
-            return ResPromoDto.fromEntity(null);
+            StringBuilder sb = new StringBuilder();
+            sb.append("Promo Code ").append(promoCode).append(" Already Used");
+            throw new PromoCodeAlreadyUsed(sb.toString());
         }
         
         return ResPromoDto.fromEntity(this.exists(promoCode));
@@ -33,26 +39,32 @@ public class PromoCodeServiceImplementation implements PromoCodeService {
     private PromoCodeModel exists(String code){
         List<PromoCodeModel> codes= this.promoCodeRepository.findByCode(code);
         for(PromoCodeModel c:codes){
+            if(c.getCode().equals(code) && c.getExpired()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("We are sorry but Promo Code ").append(code).append(" Expired");
+                throw new PromoCodeExpired(sb.toString());
+            }
             if(c.getCode().equals(code)) return c;
         }
-        // TODO: throw promo code does not exist
-        return null;
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("Promo Code ").append(code).append(" Does Not Exist");
+        throw new PromoCodeNotFound(sb.toString());
     }
 
     private Set<OrderModel> getUserOrders(Integer id){
         Optional<UserModel> userOptional = this.userRepository.findById(id);
 
         if(!userOptional.isPresent()){
-            // TODO: user not found exception    
-            return null;
+            StringBuilder sb = new StringBuilder();
+            sb.append("User with Id: ").append(id.toString()).append(" NotFound");
+            throw new UserNotFoundException(sb.toString());
         }
 
         return userOptional.get().getOrders();
     }
 
     private boolean ordersContainCode(String code, Set<OrderModel> orders){
-        if(orders == null) return false;
-
         Iterator<OrderModel> ordersIterator = orders.iterator();
         
         while(ordersIterator.hasNext()){

@@ -1,22 +1,20 @@
 package com.horvat.bookstore.order;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.horvat.bookstore.book.BookModel;
 import com.horvat.bookstore.book.BookRepository;
+import com.horvat.bookstore.book.exceptions.BookNotFoundException;
+import com.horvat.bookstore.book.exceptions.BookOutOfStockException;
 
 @Service
 public class ItemServiceImplementation implements ItemService {
-    @Autowired
-    private ItemRepository itemRepository;
     @Autowired
     private BookRepository bookRepository;
 
@@ -26,10 +24,18 @@ public class ItemServiceImplementation implements ItemService {
 
         for(Map.Entry<Integer,Integer> entry: orderItemsBookAndQty.entrySet()){
             Optional<BookModel> book = bookRepository.findById(entry.getKey());
-            // TODO: Throw book does not exists
-            if(!book.isPresent()) return null;
-            // TODO: Throw there are not X books on stock
-            if(book.get().getStock() < entry.getValue()) return null;
+            
+            if(!book.isPresent()){
+                StringBuilder sb = new StringBuilder();
+                sb.append("Book with Id: ").append(entry.getKey().toString()).append(" NotFound");
+                throw new BookNotFoundException(null);
+            }
+            
+            if(book.get().getStock() < entry.getValue()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("Book with Id: ").append(entry.getKey().toString()).append(" Stock To Low");
+                throw new BookOutOfStockException(sb.toString());
+            }
 
             ItemModel item = new ItemModel();
             item.setBook(book.get());

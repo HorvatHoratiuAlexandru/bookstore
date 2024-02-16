@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -15,10 +14,7 @@ import org.springframework.stereotype.Service;
 import com.horvat.bookstore.book.dtos.responses.ResBookDto;
 import com.horvat.bookstore.book.exceptions.BookNotFoundException;
 
-import lombok.extern.log4j.Log4j2;
-
 @Service
-@Log4j2
 public class BookServiceImplementation implements BookService {
 
     @Autowired
@@ -80,8 +76,7 @@ public class BookServiceImplementation implements BookService {
 
         StringBuilder sb = new StringBuilder();
         sb.append("Book with Id: ").append(id.toString()).append(" NotFound");
-        log.error(sb.toString());
-        throw new BookNotFoundException(null);
+        throw new BookNotFoundException(sb.toString());
     }
 
     private List<BookModel> findByToken(String token){

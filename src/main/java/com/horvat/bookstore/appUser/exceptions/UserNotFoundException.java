@@ -1,4 +1,4 @@
-package com.horvat.bookstore.appUser.Exceptions;
+package com.horvat.bookstore.appUser.exceptions;
 
 public class UserNotFoundException extends RuntimeException {
 

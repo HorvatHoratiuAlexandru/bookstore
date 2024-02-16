@@ -33,7 +33,7 @@ To get started with the project, follow these steps:
 
 - <s> Basic functionalities </s>
 - Data validation
-- Exception handling instead of just returning null
+- <s>Exception handling instead of just returning null</s>
 - Security (jwt token and Google)
 - Tests
 - Admin functions

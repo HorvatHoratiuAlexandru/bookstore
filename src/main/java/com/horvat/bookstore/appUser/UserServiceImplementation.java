@@ -6,15 +6,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.horvat.bookstore.appUser.Exceptions.UserNotFoundException;
 import com.horvat.bookstore.appUser.dtos.requests.Create;
 import com.horvat.bookstore.appUser.dtos.requests.ReqUserDto;
 import com.horvat.bookstore.appUser.dtos.responses.Created;
 import com.horvat.bookstore.appUser.dtos.responses.ResUserDto;
+import com.horvat.bookstore.appUser.exceptions.UserNotFoundException;
 
-import lombok.extern.log4j.Log4j2;
 @Service
-@Log4j2
 public class UserServiceImplementation implements UserService {
 
     private UserRepository userRepository;
@@ -73,7 +71,6 @@ public class UserServiceImplementation implements UserService {
 
         StringBuilder sb = new StringBuilder();
         sb.append("User with Id: ").append(id.toString()).append(" NotFound");
-        log.error(sb.toString());
         throw new UserNotFoundException(sb.toString());
 
     }

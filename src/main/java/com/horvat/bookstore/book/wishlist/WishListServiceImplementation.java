@@ -14,7 +14,9 @@ import com.horvat.bookstore.appUser.UserRepository;
 import com.horvat.bookstore.book.BookModel;
 import com.horvat.bookstore.book.BookRepository;
 import com.horvat.bookstore.book.dtos.responses.ResBookDto;
+import com.horvat.bookstore.book.exceptions.BookNotFoundException;
 import com.horvat.bookstore.book.wishlist.dtos.responses.ResWishListDto;
+import com.horvat.bookstore.book.wishlist.exception.ItemAlreadyInTheWishList;
 
 @Service
 public class WishListServiceImplementation implements WishListService {
@@ -118,13 +120,13 @@ public class WishListServiceImplementation implements WishListService {
 
     private WishListModel addBook(Integer id, Integer bookId){
         if(this.isBookInWishList(id, bookId)){
-            // TODO: Throw book already in the WishList Exception ?
-            return null;
+            throw new ItemAlreadyInTheWishList("Item already in the wishlist");
         }
         Optional<BookModel> bookOptional = this.bookRepository.findById(bookId);
         if(!bookOptional.isPresent()){
-            // TODO: Throw book does not exist Exception
-            return null;
+            StringBuilder sb = new StringBuilder();
+            sb.append("Book with Id: ").append(bookId.toString()).append(" NotFound");
+            throw new BookNotFoundException(sb.toString());
         }
         
         WishListModel wishList = this.getWishList(id);
@@ -137,8 +139,9 @@ public class WishListServiceImplementation implements WishListService {
         if(this.isBookInWishList(id, bookId)){
             Optional<BookModel> bookOptional = this.bookRepository.findById(bookId);
             if(!bookOptional.isPresent()){
-                // TODO: Throw book does not exist Exception
-                return null;
+                StringBuilder sb = new StringBuilder();
+                sb.append("Book with Id: ").append(bookId.toString()).append(" NotFound");
+                throw new BookNotFoundException(sb.toString());
             }
 
             wishList.getBooks().remove(bookOptional.get());
