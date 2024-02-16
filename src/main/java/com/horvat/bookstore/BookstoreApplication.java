@@ -15,3 +15,5 @@ public class BookstoreApplication {
 	}
 
 }
+
+// TODO: check the path variable with user id to match the logged in user id;

@@ -26,6 +26,10 @@ public class OrderModel {
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isProcessed;
+    @Column 
+    private String address;
+    @Column
+    private Float price;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -12,6 +12,7 @@ import lombok.Setter;
 public class ResPromoDto {
     private Integer id;
     private String code;
+    private Float discount;
   
 
     public static ResPromoDto fromEntity(PromoCodeModel code){

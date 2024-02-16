@@ -24,6 +24,8 @@ public class PromoCodeModel {
     private String code;
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean expired;
+    @Column
+    private Float discount;
 
     @OneToMany(mappedBy="promoCode")
     private Set<OrderModel> orders;
