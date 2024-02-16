@@ -2,7 +2,7 @@ package com.horvat.bookstore.book;
 
 import java.util.Set;
 
-
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
@@ -17,4 +17,6 @@ public interface BookRepository extends Repository<BookModel, Integer> {
     Optional<BookModel> findById(Integer id);
     List<BookModel> findAll();
     List<BookModel> findByTagsIn(Iterable<TagModel> tags);
+    @Query("SELECT b FROM book b WHERE b.title LIKE %:matchToken% OR b.description LIKE %:matchToken%")
+    List<BookModel> searchBooks(String matchToken);
 }

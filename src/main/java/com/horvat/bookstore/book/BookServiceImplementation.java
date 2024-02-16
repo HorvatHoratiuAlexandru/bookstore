@@ -1,5 +1,7 @@
 package com.horvat.bookstore.book;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -11,8 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.horvat.bookstore.book.dtos.responses.ResBookDto;
+import com.horvat.bookstore.book.exceptions.BookNotFoundException;
+
+import lombok.extern.log4j.Log4j2;
 
 @Service
+@Log4j2
 public class BookServiceImplementation implements BookService {
 
     @Autowired
@@ -22,18 +28,13 @@ public class BookServiceImplementation implements BookService {
 
     @Override
     public ResBookDto getBookById(Integer id) {
-        Optional<BookModel> bookOptional = this.bookRepository.findById(id); 
-        
-        if(bookOptional.isPresent()) return ResBookDto.fromEntity(bookOptional.get());
-
-        // TODO: Throw an not found exception
-        return null;        
+        return ResBookDto.fromEntity(this.findBook(id));
     }
 
     @Override
     public List<ResBookDto> filterBooksByTags(List<String> tags) {
         if(tags == null){
-            return getAllBooks();
+            return ResBookDto.fromIterableEntity(this.getAllBooks());
         }
 
         Set<Tag> tagList = EnumSet.noneOf(Tag.class);
@@ -56,19 +57,36 @@ public class BookServiceImplementation implements BookService {
 
     @Override
     public List<ResBookDto> searchBook(String searchString) {
-        // TODO Find a book that has search string in title or description?
-        throw new UnsupportedOperationException("Unimplemented method 'searchBook'");
-    }
+        String[] tokens = searchString.split(" ");
+        Set<BookModel> matchedBooks = new HashSet<>();
 
-    private List<ResBookDto> getAllBooks() {
-        List<ResBookDto> response = new LinkedList<>();
-        List<BookModel> books = this.bookRepository.findAll();
-
-        for(BookModel book: books){
-            response.add(ResBookDto.fromEntity(book));
+        for(String t: tokens){
+            matchedBooks.addAll(findByToken(t));
         }
 
-        return response;
+        return ResBookDto.fromIterableEntity(new ArrayList<>(matchedBooks));
+    }
+
+    private List<BookModel> getAllBooks() {
+        List<BookModel> books = this.bookRepository.findAll();
+
+        return books;
+    }
+
+    private BookModel findBook(Integer id){
+        Optional<BookModel> bookOptional = this.bookRepository.findById(id); 
+        
+        if(bookOptional.isPresent()) return bookOptional.get();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Book with Id: ").append(id.toString()).append(" NotFound");
+        log.error(sb.toString());
+        throw new BookNotFoundException(null);
+    }
+
+    private List<BookModel> findByToken(String token){
+        List<BookModel> books = this.bookRepository.searchBooks(token);
+        return books != null ? books : Collections.emptyList();
     }
 
 }

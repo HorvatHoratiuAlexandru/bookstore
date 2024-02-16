@@ -13,6 +13,8 @@ import com.horvat.bookstore.appUser.dtos.responses.Created;
 import com.horvat.bookstore.appUser.dtos.responses.LoggedIn;
 import com.horvat.bookstore.appUser.dtos.responses.ResUserDto;
 
+import lombok.extern.log4j.Log4j2;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;

@@ -6,11 +6,15 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.horvat.bookstore.appUser.Exceptions.UserNotFoundException;
 import com.horvat.bookstore.appUser.dtos.requests.Create;
 import com.horvat.bookstore.appUser.dtos.requests.ReqUserDto;
 import com.horvat.bookstore.appUser.dtos.responses.Created;
 import com.horvat.bookstore.appUser.dtos.responses.ResUserDto;
+
+import lombok.extern.log4j.Log4j2;
 @Service
+@Log4j2
 public class UserServiceImplementation implements UserService {
 
     private UserRepository userRepository;
@@ -22,20 +26,14 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public ResUserDto getUser(Integer id) {
-        Optional<UserModel> userOptional = this.userRepository.findById(id);
-
-        if(!userOptional.isPresent()){
-            // TODO: Throw an exception ? 
-            return null;
-        }
-
-        return ResUserDto.fromEntity(userOptional.get());
+        return ResUserDto.fromEntity(this.findUser(id));
     }
 
     @Override
     public Created createUser(Create newUserDto) {
         //TODO: check if password match repeated password or throw an error; hash the password
         UserModel newUser = Create.getEntity(newUserDto);
+        
         newUser.setActive(false);
         newUser.setRole(RoleModel.REGULAR);
         newUser = this.userRepository.save(newUser);
@@ -45,17 +43,10 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public ResUserDto updateUser(Integer id, ReqUserDto updateDto) {
-        Optional<UserModel> userOptional = this.userRepository.findById(id);
-
-        if(!userOptional.isPresent()){
-            // TODO: Throw an exception ? 
-            return null;
-        }
-
-        UserModel user = userOptional.get();
+        UserModel user = this.findUser(id);
 
         if(updateDto == null) return ResUserDto.fromEntity(user);
-        
+    
         BeanUtils.copyProperties(updateDto, user);
 
         return ResUserDto.fromEntity(this.userRepository.save(user));
@@ -71,6 +62,20 @@ public class UserServiceImplementation implements UserService {
         //Return the user info
 
         return new ResUserDto();
+    }
+
+    private UserModel findUser(Integer id){
+        Optional<UserModel> userOptional = this.userRepository.findById(id);
+
+        if(userOptional.isPresent()){
+           return userOptional.get(); 
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("User with Id: ").append(id.toString()).append(" NotFound");
+        log.error(sb.toString());
+        throw new UserNotFoundException(sb.toString());
+
     }
     
 }
