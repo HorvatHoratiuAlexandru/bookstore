@@ -13,6 +13,7 @@ import com.horvat.bookstore.appUser.dtos.responses.Created;
 import com.horvat.bookstore.appUser.dtos.responses.LoggedIn;
 import com.horvat.bookstore.appUser.dtos.responses.ResUserDto;
 
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Created register(@RequestBody Create userDto) {
+    public Created register(@Valid @RequestBody Create userDto) {
         log.info("POST:/user/register"+" recived:\n" + userDto);
         Created response = this.userService.createUser(userDto);
         log.info("POST:/user/register"+" returned:\n" + response);

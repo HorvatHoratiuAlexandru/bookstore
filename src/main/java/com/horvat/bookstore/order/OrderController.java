@@ -8,6 +8,7 @@ import com.horvat.bookstore.order.dtos.responses.OrderRegistered;
 import com.horvat.bookstore.order.dtos.responses.ResOrderDto;
 import com.horvat.bookstore.promoCode.PromoCodeService;
 
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class OrderController {
     }
 
     @PostMapping("/user/{id}/orders")
-    public OrderRegistered placeOrder(@PathVariable Integer id, @RequestBody ReqOrderDto order) {
+    public OrderRegistered placeOrder(@PathVariable Integer id, @Valid @RequestBody ReqOrderDto order) {
         log.info("POST: /user/" + id + "/orders" + "recieved:\n" + order);
         if(order.getPromoCode() != null){
             this.promoCodeService.validateCode(id, order.getPromoCode());
@@ -56,7 +57,7 @@ public class OrderController {
     }
 
     @PostMapping("/user/{id}/orders/{orderId}/process")
-    public OrderRegistered processOrder(@PathVariable Integer id, @PathVariable Integer orderId, @RequestBody ReqOrderProcessing billingData) {
+    public OrderRegistered processOrder(@PathVariable Integer id, @PathVariable Integer orderId,@Valid @RequestBody ReqOrderProcessing billingData) {
         log.info("POST: /user/" + id + "/orders/" + orderId + "process" +"recieved:\n" + billingData);
         OrderRegistered response = this.orderService.processOrder(id, orderId, billingData);
         log.info("POST: /user/" + id + "/orders/" + orderId + "process" +"returned:\n" + response);

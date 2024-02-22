@@ -1,5 +1,6 @@
 package com.horvat.bookstore.appUser.dtos.requests;
 
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +8,9 @@ import lombok.Setter;
 @Getter
 public class ReqUserDto {
     
+    @Min(3)
     private String fullName;
+    @Min(5)
     private String address;
 
     @Override

@@ -1,14 +1,22 @@
 package com.horvat.bookstore.order.dtos.requests;
 
+import org.hibernate.validator.constraints.CreditCardNumber;
+
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class ReqOrderProcessing {
+    @NotEmpty
     private String billingName;
+    @NotEmpty
+    //@CreditCardNumber
     private String cardNumber;
+    @NotEmpty
     private String expDate;
+    @NotEmpty
     private String cardCode;
 
     @Override

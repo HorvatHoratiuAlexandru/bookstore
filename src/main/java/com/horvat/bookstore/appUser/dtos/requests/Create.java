@@ -4,14 +4,21 @@ import org.springframework.beans.BeanUtils;
 
 import com.horvat.bookstore.appUser.UserModel;
 
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
 public class Create {
+    @Email
     private String email;
+    @Min(3)
     private String fullName;
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "The password must be atleast 8 character long and contain ONE UPPER LETTER, ONE NUMBER AND ONE SPECIAL SYMBOl")
     private String password;
     private String repeatPassword;
 
@@ -23,6 +30,11 @@ public class Create {
         BeanUtils.copyProperties(userDto, response);
 
         return response;
+    }
+
+    @AssertTrue
+    public boolean isPasswordMatching(){
+        return this.password.equals(repeatPassword);
     }
 
 
