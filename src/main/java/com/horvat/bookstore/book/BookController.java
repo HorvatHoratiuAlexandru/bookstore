@@ -24,15 +24,16 @@ public class BookController {
     // return all books or all books based on tags
     @GetMapping
     public List<ResBookDto> filterBooks(@RequestParam(value = "tags", required = false) List<String> tags) {
+        log.info("GET:/book recived" + "\n" + tags);
         List<ResBookDto> response = this.bookService.filterBooksByTags(tags);
-
+        log.info("GET:/book returned" + "\n" + response);
         return response;
     }
 
     @GetMapping("/{id}")
     public ResBookDto getBook(@PathVariable Integer id) {
         ResBookDto response = this.bookService.getBookById(id);
-
+        log.info("GET:/book/" + id + "returned" + "\n" + response);
         return response;
     }
     

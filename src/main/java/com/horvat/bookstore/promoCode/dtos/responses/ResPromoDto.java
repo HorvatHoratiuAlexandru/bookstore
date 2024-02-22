@@ -24,4 +24,12 @@ public class ResPromoDto {
         return response;
     }
 
+    @Override
+    public String toString() {
+        return "ResPromoDto\n" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", discount=" + discount;
+    }
+
 }

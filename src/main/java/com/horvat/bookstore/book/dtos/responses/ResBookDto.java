@@ -57,4 +57,13 @@ public class ResBookDto {
 
         return response;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("BookDto:").append("\n")
+        .append("id:").append(this.id).append("\n")
+        .append("title:").append(this.title).append("\n");
+        return sb.toString();
+    }
 }

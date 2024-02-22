@@ -27,4 +27,14 @@ public class Created {
 
         return createdUser;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("user created").append("\n")
+        .append("id:").append(this.id).append("\n")
+        .append("registered:").append(this.registered).append("\n")
+        .append("status:").append(this.active).append("\n");
+        return sb.toString();
+    }
 }

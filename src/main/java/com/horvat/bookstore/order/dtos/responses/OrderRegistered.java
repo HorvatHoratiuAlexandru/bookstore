@@ -23,4 +23,8 @@ public class OrderRegistered {
         
         return response;
     }
+
+    public String toString(){
+        return "Order:" + this.orderId + " processed:" + this.processed + " total price:" + this.total;
+    }
 }

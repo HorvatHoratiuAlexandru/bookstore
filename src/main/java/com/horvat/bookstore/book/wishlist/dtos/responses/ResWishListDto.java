@@ -27,4 +27,8 @@ public class ResWishListDto {
 
         return response;
     }
+
+    public String toString(){
+        return "wishlist:" + id + "\n" + "user:" + userId + "\n" + books;
+    }
 }

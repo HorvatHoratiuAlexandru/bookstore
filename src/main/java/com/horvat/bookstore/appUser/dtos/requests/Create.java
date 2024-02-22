@@ -24,4 +24,14 @@ public class Create {
 
         return response;
     }
+
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("create user").append("\n")
+        .append("email:").append(this.email).append("\n")
+        .append("full_name:").append(this.fullName).append("\n");
+        return sb.toString();
+    }
 }

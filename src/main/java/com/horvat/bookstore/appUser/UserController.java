@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController()
 @RequestMapping("/user")
+@Log4j2
 public class UserController {
     private final UserService userService;
 
@@ -34,14 +35,15 @@ public class UserController {
     @GetMapping("/{id}")
     public ResUserDto getUserById(@PathVariable Integer id){
         ResUserDto response = this.userService.getUser(id);
-        
+        log.info("GET:/user/" + id + " returned:\n" + response);
         return response;
     }
 
     @PostMapping("/register")
     public Created register(@RequestBody Create userDto) {
+        log.info("POST:/user/register"+" recived:\n" + userDto);
         Created response = this.userService.createUser(userDto);
-
+        log.info("POST:/user/register"+" returned:\n" + response);
         return response;
     }
 
@@ -54,15 +56,17 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResUserDto putUser(@PathVariable Integer id, @RequestBody ReqUserDto userDto) {
+        log.info("PUT:/user/" + id + " recieved:\n" + userDto);
         ResUserDto response = this.userService.updateUser(id, userDto);
-        
+        log.info("PUT:/user/" + id + " returned:\n" + response);
         return response;
     }
 
     @PostMapping("/activate/{activationCode}")
     public ResUserDto activateAccount(@PathVariable String activationCode){
+        log.info("POST:/user/activate/" + activationCode);
         ResUserDto response = this.userService.activateUser(activationCode);
-
+        log.info("POST:/user/activate/" + activationCode + " returned:\n" + response);
         return response;
     }
     

@@ -23,4 +23,15 @@ public class ResUserDto {
 
         return response;
     }
+
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("user:").append(this.email).append("\n")
+        .append("id:").append(this.id).append("\n")
+        .append("role:").append(this.role).append("\n")
+        .append("status:").append(this.active).append("\n");
+        return sb.toString();
+    }
 }
