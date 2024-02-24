@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.horvat.bookstore.appUser.dtos.requests.Create;
@@ -16,10 +17,12 @@ import com.horvat.bookstore.appUser.exceptions.UserNotFoundException;
 public class UserServiceImplementation implements UserService {
 
     private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    UserServiceImplementation(UserRepository userRepository){
+    UserServiceImplementation(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -29,11 +32,11 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public Created createUser(Create newUserDto) {
-        //TODO: check if password match repeated password or throw an error; hash the password
         UserModel newUser = Create.getEntity(newUserDto);
         
-        newUser.setActive(false);
+        newUser.setActive(true);
         newUser.setRole(RoleModel.REGULAR);
+        newUser.setPassword(this.bCryptPasswordEncoder.encode(newUser.getPassword()));
         newUser = this.userRepository.save(newUser);
 
         return Created.fromEntity(newUser);
