@@ -6,8 +6,8 @@ import com.horvat.bookstore.appUser.UserModel;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +16,7 @@ import lombok.Setter;
 public class Create {
     @Email
     private String email;
-    @Min(3)
+    @Size(min=3, max=20)
     private String fullName;
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "The password must be atleast 8 character long and contain ONE UPPER LETTER, ONE NUMBER AND ONE SPECIAL SYMBOl")
     private String password;

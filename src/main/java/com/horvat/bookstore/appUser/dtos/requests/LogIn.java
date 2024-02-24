@@ -10,4 +10,5 @@ public class LogIn {
     @Email
     private String email;
     private String password;
+
 }

@@ -9,21 +9,20 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.JWTCreator.Builder;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.horvat.bookstore.appUser.RoleModel;
 import com.horvat.bookstore.appUser.dtos.responses.LoggedIn;
 
-import lombok.experimental.PackagePrivate;
-
 public class JwtUtils {
-    @Value("${myjwt.jwt-secret}")
     private String secret;
-    @Value("${myjwt.issuer}")
     private String issuer;
 
+    public JwtUtils(String secret, String issuer){
+        this.secret=secret;
+        this.issuer=issuer;
+    }
     public LoggedIn getTokens(Integer id, String username, RoleModel role){
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
