@@ -16,14 +16,11 @@ import com.horvat.bookstore.appUser.exceptions.UserNotFoundException;
 @Service
 public class UserServiceImplementation implements UserService {
 
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    UserServiceImplementation(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
-        this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
 
     @Override
     public ResUserDto getUser(Integer id) {
@@ -45,9 +42,10 @@ public class UserServiceImplementation implements UserService {
     @Override
     public ResUserDto updateUser(Integer id, ReqUserDto updateDto) {
         UserModel user = this.findUser(id);
-
+        
+        if (user == null) return null;
         if(updateDto == null) return ResUserDto.fromEntity(user);
-    
+        
         BeanUtils.copyProperties(updateDto, user);
 
         return ResUserDto.fromEntity(this.userRepository.save(user));

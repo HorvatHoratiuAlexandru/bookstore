@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig  {
@@ -15,11 +16,12 @@ public class SecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
-            .csrf((csrf) -> csrf.disable())
-            .authorizeHttpRequests(authorize -> authorize.requestMatchers("/user/register").permitAll()
-                                                        .requestMatchers("/user/login").permitAll()
-                                                        .anyRequest().authenticated());
-
+        .csrf((csrf) -> csrf.disable())
+        .authorizeHttpRequests(authorize -> authorize.requestMatchers("/user/register").permitAll()
+        .requestMatchers("/user/login").permitAll()
+        .anyRequest().authenticated())
+        
+        ;
         return http.build();
     }
 

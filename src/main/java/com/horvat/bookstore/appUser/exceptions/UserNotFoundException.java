@@ -1,6 +1,8 @@
 package com.horvat.bookstore.appUser.exceptions;
 
-public class UserNotFoundException extends RuntimeException {
+import org.springframework.security.core.AuthenticationException;
+
+public class UserNotFoundException extends AuthenticationException {
 
     public UserNotFoundException(String message){
         super(message);

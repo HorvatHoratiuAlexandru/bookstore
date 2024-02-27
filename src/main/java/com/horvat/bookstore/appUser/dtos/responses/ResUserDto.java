@@ -18,8 +18,9 @@ public class ResUserDto {
     private Boolean active;
 
     public static ResUserDto fromEntity(UserModel entity){
+        if(entity == null) return null;
         ResUserDto response = new ResUserDto();
-        if(!(entity==null)) BeanUtils.copyProperties(entity, response);
+        BeanUtils.copyProperties(entity, response);
 
         return response;
     }
