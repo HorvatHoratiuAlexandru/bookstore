@@ -10,7 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 public class JwtAuthentication implements Authentication {
     private static final String CONST_UID = "id";
-    private static final String CONST_PRINCIPAL = "email";
+    private static final String CONST_PRINCIPAL = "username";
     private static final String CONST_NAME = "name";
     private static final String CONST_AUTHORITY = "role";
 
@@ -18,10 +18,13 @@ public class JwtAuthentication implements Authentication {
     private final String credential;
     private final JwtTokenStatus status;
 
-    public JwtAuthentication(String credential){
+    private String type;
+
+    public JwtAuthentication(String credential, String type){
         this.credential = credential;
         this.claims = null;
         this.status = JwtTokenStatus.NA;
+        this.type = type;
     }
 
     public JwtAuthentication(String credential, JwtTokenStatus status, Map<String, ?> details){
@@ -39,7 +42,10 @@ public class JwtAuthentication implements Authentication {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(claims == null) return null;
-        GrantedAuthority authority = () -> (String) claims.get(JwtAuthentication.CONST_AUTHORITY);
+        String role = (String) claims.get(JwtAuthentication.CONST_AUTHORITY);
+        GrantedAuthority authority = () -> role != null && !role.equals("REGULAR") ? "ROLE_" + role : "ROLE_REGULAR";
+
+
         
         return Arrays.asList(authority);
     }
@@ -73,9 +79,13 @@ public class JwtAuthentication implements Authentication {
         return this.status;
     }
 
-    public Integer getUserId(){
+    public String getUserUID(){
         if(claims == null) return null;
-        return (Integer) claims.get(JwtAuthentication.CONST_UID);
+        return (String) claims.get(JwtAuthentication.CONST_UID);
+    }
+
+    public String getType(){
+        return this.type;
     }
 
     @Override
