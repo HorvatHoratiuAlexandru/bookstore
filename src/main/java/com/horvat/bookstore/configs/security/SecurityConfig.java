@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -16,10 +17,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity()
 public class SecurityConfig  {
     @Autowired
     CustomJwtAuthenticateServiceImplementation customJwtSignIn;
+    @Autowired
+    CustomAuthenticationErrorHandlingFilter errorHandlerFilter;
 
     @Bean
     @Order(1)
@@ -27,11 +30,11 @@ public class SecurityConfig  {
         http
         .securityMatcher("/user/register", "/user/login")
         .csrf((csrf) -> csrf.disable())
+        .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(authorize -> authorize.requestMatchers("/user/register").permitAll()
         .requestMatchers("/user/login").permitAll()
         .anyRequest().denyAll()
         )
-    
         ;
         return http.build();
     }
@@ -42,10 +45,12 @@ public class SecurityConfig  {
         http
         .securityMatchers((customizer) -> customizer.anyRequest() )
         .addFilterBefore(customTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(errorHandlerFilter, CustomTokenAuthenticationFilter.class)
         .csrf((csrf) -> csrf.disable())
-        .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated()
+        .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(authorize -> authorize
+                                            .anyRequest().authenticated()
         )
-        
         ;
         return http.build();
     }

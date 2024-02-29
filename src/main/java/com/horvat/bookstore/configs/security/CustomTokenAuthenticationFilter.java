@@ -8,6 +8,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.horvat.bookstore.configs.security.exceptions.NotSupportedAuthorizationHeaderFoundException;
+import com.horvat.bookstore.configs.security.exceptions.TokenVerificationFailedException;
+import com.horvat.bookstore.configs.security.exceptions.UnknowAuthenticationException;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +32,7 @@ public class CustomTokenAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         
         JwtAuthentication authAttempt = this.convertRequest(request);
-        if(authAttempt == null) throw new AccessDeniedException("No supported JWT token header present");
+        if(authAttempt == null) throw new NotSupportedAuthorizationHeaderFoundException("No supported JWT token header present");
         
         JwtAuthentication authResult = this.attemptAuthentication(authAttempt);
         
@@ -69,9 +73,9 @@ public class CustomTokenAuthenticationFilter extends OncePerRequestFilter {
         + "Reason: " + authentication.getStatus());
 
         if(authentication.getStatus() != null){
-            throw new AccessDeniedException("Cause: " + authentication.getStatus());
+            throw new TokenVerificationFailedException("Cause: " + authentication.getStatus());
         }else{
-            throw new AccessDeniedException("There was an error when trying to authenticate please try again.");
+            throw new UnknowAuthenticationException("There was an error when trying to authenticate please try again.");
         }
     }
 
