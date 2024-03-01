@@ -1,7 +1,6 @@
 package com.horvat.bookstore.appUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +12,7 @@ import com.horvat.bookstore.appUser.dtos.requests.ReqUserDto;
 import com.horvat.bookstore.appUser.dtos.responses.Created;
 import com.horvat.bookstore.appUser.dtos.responses.LoggedIn;
 import com.horvat.bookstore.appUser.dtos.responses.ResUserDto;
-import com.horvat.bookstore.configs.security.CustomJwtAuthenticateServiceImplementation;
 import com.horvat.bookstore.configs.security.CustomJwtRetrieveTokens;
-import com.horvat.bookstore.configs.security.TokenAuthenticateService;
 
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
