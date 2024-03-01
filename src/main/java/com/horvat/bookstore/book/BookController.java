@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Log4j2
@@ -42,6 +43,14 @@ public class BookController {
         log.info("Searching for book | search text:" + searchText);
         return this.bookService.searchBook(searchText);
     }
+
+
+    @PostMapping("/admintest")
+    public String postAdminTest() {
+        log.info("ADMIN BOOK ENDPOINT");
+        return "hello admin from book endpoint";
+    }
+    
     
     
 }

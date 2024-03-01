@@ -4,14 +4,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 @Getter
 @Setter
 public class ReqOrderDto {
-    @Min(5)
+    @Size(min=5)
     private String address;
     private String promoCode;
     //bookId and qty
