@@ -43,7 +43,7 @@ public class OrderServiceImplementation implements OrderService{
             throw new PromoCodeNotFound(sb.toString());
         }
 
-        Float totalPrice = (promoCodeOptional.isPresent()) ? this.calcOrderTotal(items, promoCodeOptional.get().getDiscount()) : this.calcOrderTotal(items, 1.0f);
+        Float totalPrice = (promoCodeOptional.isPresent()) ? this.calcOrderTotal(items, promoCodeOptional.get().getDiscount()) : this.calcOrderTotal(items, 0.0f);
 
         
         return OrderRegistered.fromEntity(this.create(items, promoCodeOptional, totalPrice, id, orderDto.getAddress()));
