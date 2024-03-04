@@ -2,6 +2,7 @@ package com.horvat.bookstore.order;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.horvat.bookstore.configs.aspect.CustomLoggedInUserIdMatch;
 import com.horvat.bookstore.order.dtos.requests.ReqOrderDto;
 import com.horvat.bookstore.order.dtos.requests.ReqOrderProcessing;
 import com.horvat.bookstore.order.dtos.responses.OrderRegistered;
@@ -56,6 +57,7 @@ public class OrderController {
         return response;
     }
 
+    @CustomLoggedInUserIdMatch
     @PostMapping("/user/{id}/orders/{orderId}/process")
     public OrderRegistered processOrder(@PathVariable Integer id, @PathVariable Integer orderId,@Valid @RequestBody ReqOrderProcessing billingData) {
         log.info("POST: /user/" + id + "/orders/" + orderId + "process" +"recieved:\n" + billingData);

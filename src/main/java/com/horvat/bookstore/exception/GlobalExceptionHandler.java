@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.horvat.bookstore.appUser.exceptions.DontOwnTheResourceException;
 import com.horvat.bookstore.appUser.exceptions.UserNotFoundException;
 import com.horvat.bookstore.book.exceptions.BookNotFoundException;
 import com.horvat.bookstore.book.exceptions.BookOutOfStockException;
@@ -91,5 +92,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DontOwnTheResourceException.class)
+    public ResponseEntity<String> handleDontOwnTheResourceException(DontOwnTheResourceException ex){
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }
