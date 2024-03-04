@@ -37,10 +37,11 @@ public class OrderServiceImplementation implements OrderService{
         if(orderDto.getPromoCode() != null){
             // Should be good it gets checked in controller and should also be checked in FE
             promoCodeOptional = Optional.ofNullable(promoCodeRepository.findByCode(orderDto.getPromoCode()).get(0));
-
-            StringBuilder sb = new StringBuilder();
-            sb.append("Promo Code ").append(orderDto.getPromoCode()).append(" Does Not Exist");
-            throw new PromoCodeNotFound(sb.toString());
+            if(!promoCodeOptional.isPresent()){
+                StringBuilder sb = new StringBuilder();
+                sb.append("Promo Code ").append(orderDto.getPromoCode()).append(" Does Not Exist");
+                throw new PromoCodeNotFound(sb.toString());
+            }
         }
 
         Float totalPrice = (promoCodeOptional.isPresent()) ? this.calcOrderTotal(items, promoCodeOptional.get().getDiscount()) : this.calcOrderTotal(items, 0.0f);
