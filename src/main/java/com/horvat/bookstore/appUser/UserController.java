@@ -12,6 +12,7 @@ import com.horvat.bookstore.appUser.dtos.requests.ReqUserDto;
 import com.horvat.bookstore.appUser.dtos.responses.Created;
 import com.horvat.bookstore.appUser.dtos.responses.LoggedIn;
 import com.horvat.bookstore.appUser.dtos.responses.ResUserDto;
+import com.horvat.bookstore.configs.aspect.CustomLoggedInUserIdMatch;
 import com.horvat.bookstore.configs.security.CustomJwtRetrieveTokens;
 
 import jakarta.validation.Valid;
@@ -36,6 +37,7 @@ public class UserController {
         this.retrieveTokensService = retrieveTokensService;
     }
 
+    @CustomLoggedInUserIdMatch
     @GetMapping("/{id}")
     public ResUserDto getUserById(@PathVariable String id){
         ResUserDto response = this.userService.getUser(id);
@@ -58,6 +60,7 @@ public class UserController {
         return response;
     }
 
+    @CustomLoggedInUserIdMatch
     @PutMapping("/{id}")
     public ResUserDto putUser(@PathVariable String id, @RequestBody ReqUserDto userDto) {
         log.info("PUT:/user/" + id + " recieved:\n" + userDto);

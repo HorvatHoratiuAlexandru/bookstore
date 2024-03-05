@@ -31,6 +31,7 @@ public class OrderController {
     @Autowired
     private PromoCodeService promoCodeService;
 
+    @CustomLoggedInUserIdMatch
     @GetMapping("/user/{id}/orders")
     public List<ResOrderDto> getOrders(@PathVariable String id) {
         List<ResOrderDto> response = new ArrayList<>();
@@ -38,6 +39,7 @@ public class OrderController {
         return response;
     }
 
+    @CustomLoggedInUserIdMatch
     @GetMapping("/user/{id}/orders/{orderId}")
     public ResOrderDto getOrder(@PathVariable String id, @PathVariable Integer orderId) {
         ResOrderDto response = new ResOrderDto();
@@ -45,6 +47,7 @@ public class OrderController {
         return response;
     }
 
+    @CustomLoggedInUserIdMatch
     @PostMapping("/user/{id}/orders")
     public OrderRegistered placeOrder(@PathVariable String id, @Valid @RequestBody ReqOrderDto order) {
         log.info("POST: /user/" + id + "/orders" + "recieved:\n" + order);
