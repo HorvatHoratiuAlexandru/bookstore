@@ -32,21 +32,21 @@ public class OrderController {
     private PromoCodeService promoCodeService;
 
     @GetMapping("/user/{id}/orders")
-    public List<ResOrderDto> getOrders(@PathVariable Integer id) {
+    public List<ResOrderDto> getOrders(@PathVariable String id) {
         List<ResOrderDto> response = new ArrayList<>();
 
         return response;
     }
 
     @GetMapping("/user/{id}/orders/{orderId}")
-    public ResOrderDto getOrder(@PathVariable Integer id, @PathVariable Integer orderId) {
+    public ResOrderDto getOrder(@PathVariable String id, @PathVariable Integer orderId) {
         ResOrderDto response = new ResOrderDto();
 
         return response;
     }
 
     @PostMapping("/user/{id}/orders")
-    public OrderRegistered placeOrder(@PathVariable Integer id, @Valid @RequestBody ReqOrderDto order) {
+    public OrderRegistered placeOrder(@PathVariable String id, @Valid @RequestBody ReqOrderDto order) {
         log.info("POST: /user/" + id + "/orders" + "recieved:\n" + order);
         if(order.getPromoCode() != null){
             this.promoCodeService.validateCode(id, order.getPromoCode());
@@ -59,7 +59,7 @@ public class OrderController {
 
     @CustomLoggedInUserIdMatch
     @PostMapping("/user/{id}/orders/{orderId}/process")
-    public OrderRegistered processOrder(@PathVariable Integer id, @PathVariable Integer orderId,@Valid @RequestBody ReqOrderProcessing billingData) {
+    public OrderRegistered processOrder(@PathVariable String id, @PathVariable Integer orderId,@Valid @RequestBody ReqOrderProcessing billingData) {
         log.info("POST: /user/" + id + "/orders/" + orderId + "process" +"recieved:\n" + billingData);
         OrderRegistered response = this.orderService.processOrder(id, orderId, billingData);
         log.info("POST: /user/" + id + "/orders/" + orderId + "process" +"returned:\n" + response);

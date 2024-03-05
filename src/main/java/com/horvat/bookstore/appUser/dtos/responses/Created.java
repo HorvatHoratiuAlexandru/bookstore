@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Created {
-    private Integer id;
+    private String id;
     private Boolean active;
     private Boolean registered;
 
@@ -23,6 +23,7 @@ public class Created {
         }
         
         BeanUtils.copyProperties(entity, createdUser);
+        createdUser.setId(entity.getUid());
         createdUser.registered = true;
 
         return createdUser;

@@ -24,28 +24,28 @@ public class WishListController {
     private WishListService wishListService;
 
     @GetMapping("/user/{id}/wishlist")
-    public List<ResBookDto> getWishList(@PathVariable Integer id) {
+    public List<ResBookDto> getWishList(@PathVariable String id) {
         List<ResBookDto> response = this.wishListService.getUserWishListBooks(id);
         log.info("GET: /user/" + id + "/wishlist returned" + "\n" + response);
         return response;
     }
 
     @PostMapping("/user/{id}/wishlist/{bookId}")
-    public ResWishListDto addToWishList(@PathVariable Integer id, @PathVariable Integer bookId) {
+    public ResWishListDto addToWishList(@PathVariable String id, @PathVariable Integer bookId) {
         ResWishListDto response = this.wishListService.addBookToUserWishList(id, bookId);
         log.info("POST: /user/" + id + "/wishlist/" + bookId + " returned" + "\n" + response );
         return response;
     }
 
     @DeleteMapping("/user/{id}/wishlist")
-    public Boolean clearWishList(@PathVariable Integer id) {
+    public Boolean clearWishList(@PathVariable String id) {
         Boolean response = this.wishListService.clearUserWishList(id);
         log.info("DELETE: /user/" + id + "/wishlist returned" + "\n" + response);
         return response;
     }
 
     @DeleteMapping("/user/{id}/wishlist/{bookId}")
-    public ResWishListDto removeFromWishList(@PathVariable Integer id, @PathVariable Integer bookId) {
+    public ResWishListDto removeFromWishList(@PathVariable String id, @PathVariable Integer bookId) {
         ResWishListDto response = this.wishListService.removeBookFromUserWishList(id, bookId);
         log.info("DELETE: /user/" + id + "/wishlist/" + bookId + " returned" + "\n" + response );
         return response;

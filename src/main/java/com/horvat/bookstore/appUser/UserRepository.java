@@ -1,13 +1,15 @@
 package com.horvat.bookstore.appUser;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import java.util.Optional;
+import org.springframework.data.repository.Repository;
+import java.util.List;
 
-@Repository
-public interface UserRepository extends JpaRepository<UserModel, Integer> {
+public interface UserRepository extends Repository<UserModel, Integer> {
     
     Optional<UserModel> findById(Integer id);
     Optional<UserModel> findByEmail(String email);
     UserModel save(UserModel user);
+    List<UserModel> findByUid(String uid);
+    List<UserModel> findByGoogleUid(String googleUid);
+
 }

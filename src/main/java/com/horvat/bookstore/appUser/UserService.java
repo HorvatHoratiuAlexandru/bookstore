@@ -6,8 +6,8 @@ import com.horvat.bookstore.appUser.dtos.responses.Created;
 import com.horvat.bookstore.appUser.dtos.responses.ResUserDto;
 
 public interface UserService {
-    ResUserDto getUser(Integer id);
+    ResUserDto getUser(String id);
     Created createUser(Create newUserDto);
-    ResUserDto updateUser(Integer id, ReqUserDto updateDto);
+    ResUserDto updateUser(String id, ReqUserDto updateDto);
     ResUserDto activateUser(String activationCode);
 }

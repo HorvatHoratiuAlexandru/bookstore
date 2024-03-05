@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResUserDto getUserById(@PathVariable Integer id){
+    public ResUserDto getUserById(@PathVariable String id){
         ResUserDto response = this.userService.getUser(id);
         log.info("GET:/user/" + id + " returned:\n" + response);
         return response;
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResUserDto putUser(@PathVariable Integer id, @RequestBody ReqUserDto userDto) {
+    public ResUserDto putUser(@PathVariable String id, @RequestBody ReqUserDto userDto) {
         log.info("PUT:/user/" + id + " recieved:\n" + userDto);
         ResUserDto response = this.userService.updateUser(id, userDto);
         log.info("PUT:/user/" + id + " returned:\n" + response);

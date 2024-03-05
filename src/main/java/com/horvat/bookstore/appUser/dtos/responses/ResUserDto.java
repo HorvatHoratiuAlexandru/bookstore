@@ -11,16 +11,18 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ResUserDto {
-    private Integer id;
+    private String id;
     private RoleModel role;
     private String fullName;
     private String email;
+    private boolean isGAccount;
     private Boolean active;
 
     public static ResUserDto fromEntity(UserModel entity){
         if(entity == null) return null;
         ResUserDto response = new ResUserDto();
         BeanUtils.copyProperties(entity, response);
+        response.setId(entity.getUid());
 
         return response;
     }

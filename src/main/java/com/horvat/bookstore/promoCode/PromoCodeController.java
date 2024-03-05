@@ -18,7 +18,7 @@ public class PromoCodeController {
     private PromoCodeService promoCodeService;
 
     @GetMapping("/user/{id}/promo/{code}")
-    public ResPromoDto validatePromoCode(@PathVariable Integer id, @PathVariable String code) {
+    public ResPromoDto validatePromoCode(@PathVariable String id, @PathVariable String code) {
         log.info("GET: /user/" + id + "/promo/" + code);
         ResPromoDto response = this.promoCodeService.validateCode(id, code);
         log.info("GET: /user/" + id + "/promo/" + code + "returned\n" + response);

@@ -1,6 +1,7 @@
 package com.horvat.bookstore.appUser;
 
 import java.util.Set;
+import java.util.UUID;
 
 import com.horvat.bookstore.book.wishlist.WishListModel;
 import com.horvat.bookstore.order.OrderModel;
@@ -24,6 +25,15 @@ public class UserModel {
     @GeneratedValue
     private Integer id;
 
+    @Column(unique = true, nullable = false)
+    private String uid;
+
+    @Column(unique = true, nullable = true)
+    private String googleUid;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean isGAccount;
+
     @Enumerated(EnumType.ORDINAL)
     private RoleModel role;
 
@@ -43,5 +53,8 @@ public class UserModel {
 
     @OneToOne(mappedBy = "user")
     private WishListModel wishlist;
-    
+
+    public void autoGenerateUID(){
+        this.uid = UUID.randomUUID().toString();
+    }
 }

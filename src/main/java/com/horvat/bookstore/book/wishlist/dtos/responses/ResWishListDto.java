@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 public class ResWishListDto {
     private Integer id;
-    private Integer userId;
+    private String userId;
     private List<ResBookDto> books;
 
 
@@ -22,7 +22,7 @@ public class ResWishListDto {
         ResWishListDto response = new ResWishListDto();
 
         response.setId(wishList.getId());
-        response.setUserId(wishList.getUser().getId());
+        response.setUserId(wishList.getUser().getUid());
         response.setBooks(ResBookDto.fromIterableEntity(new ArrayList<BookModel>(wishList.getBooks())));
 
         return response;

@@ -1,5 +1,6 @@
 package com.horvat.bookstore.appUser;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -23,7 +24,7 @@ public class UserServiceImplementation implements UserService {
 
 
     @Override
-    public ResUserDto getUser(Integer id) {
+    public ResUserDto getUser(String id) {
         return ResUserDto.fromEntity(this.findUser(id));
     }
 
@@ -34,13 +35,14 @@ public class UserServiceImplementation implements UserService {
         newUser.setActive(true);
         newUser.setRole(RoleModel.REGULAR);
         newUser.setPassword(this.bCryptPasswordEncoder.encode(newUser.getPassword()));
+        newUser.autoGenerateUID();
         newUser = this.userRepository.save(newUser);
 
         return Created.fromEntity(newUser);
     }
 
     @Override
-    public ResUserDto updateUser(Integer id, ReqUserDto updateDto) {
+    public ResUserDto updateUser(String id, ReqUserDto updateDto) {
         UserModel user = this.findUser(id);
         
         if (user == null) return null;
@@ -63,11 +65,11 @@ public class UserServiceImplementation implements UserService {
         return new ResUserDto();
     }
 
-    private UserModel findUser(Integer id){
-        Optional<UserModel> userOptional = this.userRepository.findById(id);
+    private UserModel findUser(String id){
+        List<UserModel> userQuerySet = this.userRepository.findByUid(id);
 
-        if(userOptional.isPresent()){
-           return userOptional.get(); 
+        if(userQuerySet!=null && !userQuerySet.isEmpty()){
+           return userQuerySet.get(0); 
         }
 
         StringBuilder sb = new StringBuilder();

@@ -30,7 +30,7 @@ public class OrderServiceImplementation implements OrderService{
     private UserRepository userRepository;
 
     @Override
-    public OrderRegistered placeOrder(Integer id, ReqOrderDto orderDto) {
+    public OrderRegistered placeOrder(String id, ReqOrderDto orderDto) {
         List<ItemModel> items = this.itemService.createOrderItems(orderDto.getItems());
         Optional<PromoCodeModel> promoCodeOptional = Optional.empty();
         
@@ -51,7 +51,7 @@ public class OrderServiceImplementation implements OrderService{
     }
 
     @Override
-    public OrderRegistered processOrder(Integer id, Integer orderId, ReqOrderProcessing billingDto) {
+    public OrderRegistered processOrder(String id, Integer orderId, ReqOrderProcessing billingDto) {
         Optional<OrderModel> orderOptional = this.orderRepository.findById(orderId);
 
         if(!orderOptional.isPresent()){
@@ -76,7 +76,7 @@ public class OrderServiceImplementation implements OrderService{
         return (total-(total*discount));
     }
 
-    private OrderModel create(List<ItemModel> items, Optional<PromoCodeModel> promoCode, Float totalPrice, Integer id, String address){
+    private OrderModel create(List<ItemModel> items, Optional<PromoCodeModel> promoCode, Float totalPrice, String id, String address){
         OrderModel order = new OrderModel();
 
         for(ItemModel item : items){
@@ -93,10 +93,10 @@ public class OrderServiceImplementation implements OrderService{
         order.setAddress(address);
         order.setIsProcessed(false);
 
-        Optional<UserModel> userOptional = this.userRepository.findById(id);
+        List<UserModel> userQueryResult = this.userRepository.findByUid(id);
 
-        if(userOptional.isPresent()){
-            order.setUser(userOptional.get());
+        if(userQueryResult != null && !userQueryResult.isEmpty()){
+            order.setUser(userQueryResult.get(0));
         }else{
             StringBuilder sb = new StringBuilder();
             sb.append("User with Id: ").append(id.toString()).append(" NotFound");
@@ -105,7 +105,7 @@ public class OrderServiceImplementation implements OrderService{
 
         order.setPrice(totalPrice);
 
-        userOptional.get().getOrders().add(order);
+        userQueryResult.get(0).getOrders().add(order);
 
         order = this.orderRepository.save(order);
         

@@ -60,7 +60,7 @@ public class CustomJwtRetrieveTokens {
         Algorithm algo = Algorithm.HMAC256(this.secret);
         String token = JWT.create()
                         .withIssuer(this.issuer)
-                        .withClaim("id", Integer.toString(user.getId()))
+                        .withClaim("id", user.getId())
                         .withClaim("username", user.getEmail())
                         .withClaim("name", user.getFullName())
                         .withClaim("role", user.getRole().toString())

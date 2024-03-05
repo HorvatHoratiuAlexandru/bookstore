@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class LoggedIn {
-    private Integer userId;
+    private String userId;
     private String token;
     private String refreshToken;
 

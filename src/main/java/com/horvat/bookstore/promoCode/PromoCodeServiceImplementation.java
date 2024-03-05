@@ -26,7 +26,7 @@ public class PromoCodeServiceImplementation implements PromoCodeService {
     private PromoCodeRepository promoCodeRepository;
 
     @Override
-    public ResPromoDto validateCode(Integer id, String promoCode) {
+    public ResPromoDto validateCode(String id, String promoCode) {
         if(this.ordersContainCode(promoCode, this.getUserOrders(id))){
             StringBuilder sb = new StringBuilder();
             sb.append("Promo Code ").append(promoCode).append(" Already Used");
@@ -52,16 +52,16 @@ public class PromoCodeServiceImplementation implements PromoCodeService {
         throw new PromoCodeNotFound(sb.toString());
     }
 
-    private Set<OrderModel> getUserOrders(Integer id){
-        Optional<UserModel> userOptional = this.userRepository.findById(id);
+    private Set<OrderModel> getUserOrders(String id){
+        List<UserModel> userQueryResult = this.userRepository.findByUid(id);
 
-        if(!userOptional.isPresent()){
+        if(userQueryResult == null || userQueryResult.isEmpty()){
             StringBuilder sb = new StringBuilder();
             sb.append("User with Id: ").append(id.toString()).append(" NotFound");
             throw new UserNotFoundException(sb.toString());
         }
 
-        return userOptional.get().getOrders();
+        return userQueryResult.get(0).getOrders();
     }
 
     private boolean ordersContainCode(String code, Set<OrderModel> orders){

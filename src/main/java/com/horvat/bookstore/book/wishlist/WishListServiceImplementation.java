@@ -28,22 +28,22 @@ public class WishListServiceImplementation implements WishListService {
     private WishListRepository wishListRepository;
 
     @Override
-    public List<ResBookDto> getUserWishListBooks(Integer id) {
+    public List<ResBookDto> getUserWishListBooks(String id) {
         return ResBookDto.fromIterableEntity(this.getUserWishListBookModel(id));
     }
 
     @Override
-    public ResWishListDto addBookToUserWishList(Integer id, Integer bookId) {
+    public ResWishListDto addBookToUserWishList(String id, Integer bookId) {
         return ResWishListDto.fromEntity(this.addBook(id, bookId));
     }
 
     @Override
-    public ResWishListDto removeBookFromUserWishList(Integer id, Integer bookId) {
+    public ResWishListDto removeBookFromUserWishList(String id, Integer bookId) {
         return ResWishListDto.fromEntity(this.removeBook(id, bookId));
     }
 
     @Override
-    public Boolean clearUserWishList(Integer id) {
+    public Boolean clearUserWishList(String id) {
         WishListModel wishList = getWishList(id);
 
         if(wishList.getBooks().isEmpty()){
@@ -57,7 +57,7 @@ public class WishListServiceImplementation implements WishListService {
     }
 
 
-    private List<BookModel> getUserWishListBookModel(Integer id) {
+    private List<BookModel> getUserWishListBookModel(String id) {
         WishListModel wishList = this.getWishList(id);
 
         Set<BookModel> books = wishList.getBooks();
@@ -68,7 +68,7 @@ public class WishListServiceImplementation implements WishListService {
         return new ArrayList<>(uniqueBooks);
     }
 
-    private WishListModel getWishList(Integer id){
+    private WishListModel getWishList(String id){
         WishListModel wishList = this.getOrCreate(id);
 
         if(wishList.getBooks()== null){
@@ -77,15 +77,15 @@ public class WishListServiceImplementation implements WishListService {
         return wishList;
     }
 
-    private WishListModel create(Integer id){
-        Optional<UserModel> userOptional = this.userRepository.findById(id);
+    private WishListModel create(String id){
+        List<UserModel> userQueryResult = this.userRepository.findByUid(id);
 
-        if(!userOptional.isPresent()){
+        if(userQueryResult== null || userQueryResult.isEmpty()){
             return null;
         }
 
         WishListModel wishList = new WishListModel();
-        UserModel user = userOptional.get();
+        UserModel user = userQueryResult.get(0);
         wishList.setUser(user);
         user.setWishlist(wishList);
         
@@ -94,14 +94,14 @@ public class WishListServiceImplementation implements WishListService {
         return wishList;
     }
 
-    private WishListModel getOrCreate(Integer id){
-        Optional<UserModel> userOptional = this.userRepository.findById(id);
+    private WishListModel getOrCreate(String id){
+        List<UserModel> userQueryResult = this.userRepository.findByUid(id);
 
-        if(!userOptional.isPresent()){
+        if(userQueryResult== null || userQueryResult.isEmpty()){
             return null;
         }
         
-        UserModel user = userOptional.get();
+        UserModel user = userQueryResult.get(0);
         WishListModel wishList = user.getWishlist();
         
 
@@ -112,13 +112,13 @@ public class WishListServiceImplementation implements WishListService {
         return wishList;
     }
 
-    private boolean isBookInWishList(Integer id, Integer bookId){
+    private boolean isBookInWishList(String id, Integer bookId){
         List<BookModel> wishListBooks = this.getUserWishListBookModel(id);
 
         return wishListBooks.stream().map(BookModel::getId).anyMatch(dtoId -> dtoId == bookId);
     }
 
-    private WishListModel addBook(Integer id, Integer bookId){
+    private WishListModel addBook(String id, Integer bookId){
         if(this.isBookInWishList(id, bookId)){
             throw new ItemAlreadyInTheWishList("Item already in the wishlist");
         }
@@ -134,7 +134,7 @@ public class WishListServiceImplementation implements WishListService {
         return this.wishListRepository.save(wishList);
     }
 
-    private WishListModel removeBook(Integer id, Integer bookId){
+    private WishListModel removeBook(String id, Integer bookId){
         WishListModel wishList = this.getWishList(id);
         if(this.isBookInWishList(id, bookId)){
             Optional<BookModel> bookOptional = this.bookRepository.findById(bookId);
