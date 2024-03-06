@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.horvat.bookstore.appUser.exceptions.DontOwnTheResourceException;
 import com.horvat.bookstore.appUser.exceptions.UserNotFoundException;
+import com.horvat.bookstore.book.exceptions.AlreadyReviewedException;
+import com.horvat.bookstore.book.exceptions.BadReviewGrade;
 import com.horvat.bookstore.book.exceptions.BookNotFoundException;
 import com.horvat.bookstore.book.exceptions.BookOutOfStockException;
 import com.horvat.bookstore.book.wishlist.exception.ItemAlreadyInTheWishList;
@@ -96,6 +98,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DontOwnTheResourceException.class)
     public ResponseEntity<String> handleDontOwnTheResourceException(DontOwnTheResourceException ex){
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(BadReviewGrade.class)
+    public ResponseEntity<String> handleBadReviewGradeException(BadReviewGrade ex){
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(AlreadyReviewedException.class)
+    public ResponseEntity<String> handleAlreadyReviewedException(AlreadyReviewedException ex){
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }

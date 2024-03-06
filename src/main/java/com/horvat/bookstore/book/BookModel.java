@@ -39,6 +39,8 @@ public class BookModel {
     private Float price;
     @Column
     private Integer stock;
+    @Column
+    private ReviewGrade grade;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

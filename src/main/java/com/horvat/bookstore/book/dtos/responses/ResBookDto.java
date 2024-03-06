@@ -22,6 +22,7 @@ public class ResBookDto {
     private Integer pageNumber;
     private Float price;
     private Integer stock;
+    private String grade;
 
     private List<String> authors;
     private List<String> tags;
@@ -39,6 +40,11 @@ public class ResBookDto {
         }
         for(TagModel t : book.getTags()){
             response.getTags().add(t.getName());
+        }
+        if(book.getGrade() != null){
+            response.setGrade(book.getGrade().toString());
+        }else{
+            response.setGrade("NA");
         }
 
         return response;
