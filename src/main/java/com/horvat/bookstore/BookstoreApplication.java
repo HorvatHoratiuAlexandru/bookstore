@@ -15,5 +15,3 @@ public class BookstoreApplication {
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
 }
-
-// TODO: check the path variable with user id to match the logged in user id;
