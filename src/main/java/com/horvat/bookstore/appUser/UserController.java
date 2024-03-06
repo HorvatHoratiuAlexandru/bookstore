@@ -1,6 +1,7 @@
 package com.horvat.bookstore.appUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,6 +58,14 @@ public class UserController {
     public LoggedIn logIn(@RequestBody LogIn credentials) {
         log.info("trying to sign in user:" + credentials.getEmail());
         LoggedIn response = this.retrieveTokensService.signInAndReturnTokens(credentials);
+        return response;
+    }
+
+    @GetMapping("/token")
+    public LoggedIn getTokens() {
+        log.info("Generating new tokens for logged in user");
+        String userJwt = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        LoggedIn response = this.retrieveTokensService.refreshTokens(userJwt);
         return response;
     }
 
