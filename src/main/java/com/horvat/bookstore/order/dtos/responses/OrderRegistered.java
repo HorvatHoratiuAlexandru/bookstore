@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class OrderRegistered {
     private Integer orderId;
-    private Boolean processed;
+    private Boolean isPayed;
     private Float total;
 
     public static OrderRegistered fromEntity(OrderModel order){
@@ -18,13 +18,13 @@ public class OrderRegistered {
         if(order == null) return response;
 
         response.setOrderId(order.getId());
-        response.setProcessed(order.getIsProcessed());
+        response.setIsPayed(order.getIsPayed());
         response.setTotal(order.getPrice());
         
         return response;
     }
 
     public String toString(){
-        return "Order:" + this.orderId + " processed:" + this.processed + " total price:" + this.total;
+        return "Order:" + this.orderId + " processed:" + this.isPayed + " total price:" + this.total;
     }
 }

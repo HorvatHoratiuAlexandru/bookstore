@@ -12,7 +12,6 @@ import com.horvat.bookstore.promoCode.PromoCodeService;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class OrderController {
     @CustomLoggedInUserIdMatch
     @GetMapping("/user/{id}/orders")
     public List<ResOrderDto> getOrders(@PathVariable String id) {
-        List<ResOrderDto> response = new ArrayList<>();
+        List<ResOrderDto> response = this.orderService.getOrders(id);
 
         return response;
     }
@@ -42,7 +41,7 @@ public class OrderController {
     @CustomLoggedInUserIdMatch
     @GetMapping("/user/{id}/orders/{orderId}")
     public ResOrderDto getOrder(@PathVariable String id, @PathVariable Integer orderId) {
-        ResOrderDto response = new ResOrderDto();
+        ResOrderDto response = this.orderService.getOrder(orderId, id);
 
         return response;
     }

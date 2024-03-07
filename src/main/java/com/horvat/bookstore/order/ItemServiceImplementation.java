@@ -17,6 +17,8 @@ import com.horvat.bookstore.book.exceptions.BookOutOfStockException;
 public class ItemServiceImplementation implements ItemService {
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private ItemRepository itemRepository;
 
     @Override
     public List<ItemModel> createOrderItems(Map<Integer, Integer> orderItemsBookAndQty) {
@@ -45,7 +47,7 @@ public class ItemServiceImplementation implements ItemService {
             items.add(item);
         }
 
-        return items;
+        return this.itemRepository.saveAll(items);
     }
 
 }

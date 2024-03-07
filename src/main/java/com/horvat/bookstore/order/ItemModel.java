@@ -33,4 +33,9 @@ public class ItemModel {
     @JoinColumn(name = "book_id")
     private BookModel book;
 
+    @Override
+    public String toString(){
+        return "Item: " + this.book.getTitle() + " qty: " + this.qty + " price: " + this.price;
+    }
+
 }

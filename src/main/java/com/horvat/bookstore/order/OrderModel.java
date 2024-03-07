@@ -1,5 +1,6 @@
 package com.horvat.bookstore.order;
 
+import java.util.Date;
 import java.util.Set;
 
 import com.horvat.bookstore.appUser.UserModel;
@@ -13,6 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,11 +28,17 @@ public class OrderModel {
     private Integer id;
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isPayed;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isProcessed;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isFinished;
     @Column 
     private String address;
     @Column
     private Float price;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
