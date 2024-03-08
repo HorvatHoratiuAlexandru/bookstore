@@ -27,13 +27,15 @@ public class ItemServiceImplementation implements ItemService {
         for(Map.Entry<Integer,Integer> entry: orderItemsBookAndQty.entrySet()){
             Optional<BookModel> book = bookRepository.findById(entry.getKey());
             
+            
             if(!book.isPresent()){
                 StringBuilder sb = new StringBuilder();
                 sb.append("Book with Id: ").append(entry.getKey().toString()).append(" NotFound");
                 throw new BookNotFoundException(null);
             }
             
-            if(book.get().getStock() < entry.getValue()) {
+            Integer bookStock = book.get().getStock();
+            if(bookStock < entry.getValue()) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("Book with Id: ").append(entry.getKey().toString()).append(" Stock To Low");
                 throw new BookOutOfStockException(sb.toString());
@@ -43,6 +45,8 @@ public class ItemServiceImplementation implements ItemService {
             item.setBook(book.get());
             item.setPrice(book.get().getPrice());
             item.setQty(entry.getValue());
+            book.get().setStock(bookStock - entry.getValue());
+            this.bookRepository.save(book.get());
             
             items.add(item);
         }
