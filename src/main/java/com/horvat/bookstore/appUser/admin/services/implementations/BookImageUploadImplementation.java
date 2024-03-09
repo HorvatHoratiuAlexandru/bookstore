@@ -30,7 +30,7 @@ public class BookImageUploadImplementation implements BookImageUpload {
         List<String> response = new LinkedList<>();
         for(MultipartFile file : files){
 
-            String imageName = this.genRandomName();
+            String imageName = this.genRandomName() + ".jpg";
             response.add(imageName);
 
             File image = Paths.get(this.folderGetOrCreate().toString(), imageName).toFile();
