@@ -12,7 +12,8 @@ public class HttpSecurityConstants {
 
     public static final String[] REGULAR_USER_PATTERNS = {
         "/user/**",
-        "/book/*/review"
+        "/book/*/review",
+        "/admin/**"
     };
 
     public static final String[] ADMIN_USER_PATTERNS = {

@@ -63,6 +63,9 @@ public class BookModel {
         inverseJoinColumns = @JoinColumn(name = "authors_id")
     )
     private Set<AuthorModel> authors;
+
+    @OneToMany
+    private Set<ImageModel> images;
     
     @Override
     public boolean equals(Object obj) {
