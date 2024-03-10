@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.horvat.bookstore.book.AuthorModel;
 import com.horvat.bookstore.book.BookModel;
+import com.horvat.bookstore.book.ImageModel;
 import com.horvat.bookstore.book.TagModel;
 
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class ResBookDto {
 
     private List<String> authors;
     private List<String> tags;
+    private List<String> images;
 
     
     public static ResBookDto fromEntity(BookModel book){
@@ -33,7 +35,8 @@ public class ResBookDto {
         if(book==null) return response;
 
         response.setAuthors(new LinkedList<>());
-        response.setTags(new LinkedList<>());    
+        response.setTags(new LinkedList<>());
+        response.setImages(new LinkedList<>());    
         BeanUtils.copyProperties(book, response);
         for(AuthorModel a : book.getAuthors()){
             response.getAuthors().add(a.getName());
@@ -45,6 +48,10 @@ public class ResBookDto {
             response.setGrade(book.getGrade().toString());
         }else{
             response.setGrade("NA");
+        }
+
+        for(ImageModel i : book.getImages()){
+            response.getImages().add(i.getLink());
         }
 
         return response;

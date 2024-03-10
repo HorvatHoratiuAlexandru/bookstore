@@ -96,7 +96,7 @@ public class PopulateBooks implements CommandLineRunner {
                 if(!(bookAuthors == null) && !(bookAuthors.isEmpty())){
 
                     for(String a:bookAuthors){
-                        Optional<AuthorModel> existentAuthor = this.authorRepository.getByName(a);
+                        Optional<AuthorModel> existentAuthor = this.authorRepository.findByName(a);
                         if (book.getAuthors() == null) {
                             book.setAuthors(new HashSet<>());
                         }

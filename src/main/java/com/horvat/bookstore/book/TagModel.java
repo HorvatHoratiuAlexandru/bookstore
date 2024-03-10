@@ -16,7 +16,7 @@ import lombok.Setter;
 public class TagModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(unique = true)
     private String name;

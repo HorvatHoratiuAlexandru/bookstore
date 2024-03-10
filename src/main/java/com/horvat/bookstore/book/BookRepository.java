@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface BookRepository extends Repository<BookModel, Integer> {
     Set<BookModel> saveAll(Iterable<BookModel> books);
-    Optional<BookModel> save(BookModel book);
+    BookModel save(BookModel book);
     List<BookModel> findByTitle(String title);
     Optional<BookModel> findById(Integer id);
     List<BookModel> findAll();

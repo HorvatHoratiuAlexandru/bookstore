@@ -5,6 +5,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.horvat.bookstore.appUser.admin.dtos.ReqCreateBookDto;
+import com.horvat.bookstore.appUser.admin.dtos.ResBookUploadedSuccesfullDto;
+import com.horvat.bookstore.appUser.admin.dtos.ResSearchResult;
+import com.horvat.bookstore.appUser.admin.services.AdminBookService;
 import com.horvat.bookstore.appUser.admin.services.BookImageUpload;
 import com.horvat.bookstore.book.dtos.responses.ImageInfoDto;
 
@@ -23,24 +27,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AdminController {
     @Autowired
     BookImageUpload imageUploadService;
+    @Autowired
+    AdminBookService adminBookService;
 
 
-
-    @PostMapping("book-image")
-    public List<ImageInfoDto> postMethodName(@RequestParam("files") MultipartFile[] files) {
-        
+    @PostMapping("/book-image")
+    public List<ImageInfoDto> postMethodName(@RequestParam("files") MultipartFile[] files) { 
         List<ImageInfoDto> response = this.imageUploadService.upload(files);
 
         
         return response;
     }
+
+    @GetMapping("/search/tag")
+    public List<ResSearchResult> searchTags(@RequestParam(value = "search", required = true) String searchText) {
+        
+        return adminBookService.searchTag(searchText);
+    }
+
+    @GetMapping("/search/authors")
+    public List<ResSearchResult> searchAuthors(@RequestParam(value = "search", required = true) String searchText) {
+
+        return this.adminBookService.searchAuthor(searchText);
+    }
+    
     
 
     @PostMapping("/book")
-    public String addBook(@RequestBody String entity) {
-        //TODO: process POST request
+    public ResBookUploadedSuccesfullDto addBook(@RequestBody ReqCreateBookDto createDto) {
+        ResBookUploadedSuccesfullDto response = this.adminBookService.create(createDto);
         
-        return entity;
+        return response;
     }
 
     @PutMapping("/book")
