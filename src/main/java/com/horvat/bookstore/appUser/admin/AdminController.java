@@ -5,18 +5,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.horvat.bookstore.appUser.admin.dtos.PromoCodeCreateDto;
 import com.horvat.bookstore.appUser.admin.dtos.ReqCreateBookDto;
 import com.horvat.bookstore.appUser.admin.dtos.ResBookUploadedSuccesfullDto;
 import com.horvat.bookstore.appUser.admin.dtos.ResSearchResult;
 import com.horvat.bookstore.appUser.admin.services.AdminBookService;
+import com.horvat.bookstore.appUser.admin.services.AdminPromoCodeService;
 import com.horvat.bookstore.appUser.admin.services.BookImageUpload;
 import com.horvat.bookstore.book.dtos.responses.ImageInfoDto;
+import com.horvat.bookstore.promoCode.dtos.responses.ResPromoDto;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +33,8 @@ public class AdminController {
     BookImageUpload imageUploadService;
     @Autowired
     AdminBookService adminBookService;
+    @Autowired
+    AdminPromoCodeService adminPromoCodeService;
 
 
     @PostMapping("/book-image")
@@ -81,32 +87,22 @@ public class AdminController {
         return entity;
     }
 
-    @PutMapping("/order/{orderId}")
-    public String updateOrder(@RequestBody String entity) {
-        //TODO: should change order status
+    @PutMapping("/promo/{code}")
+    public ResPromoDto updatePromoCode(@PathVariable String code) {
+        ResPromoDto response = this.adminPromoCodeService.updatePromoCode(code);
         
-        return entity;
+        return response;
     }
 
     @PostMapping("/promo")
-    public String createPromoCode(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return entity;
+    public Boolean createPromoCode(@RequestBody PromoCodeCreateDto promoCodeDto) {    
+        return this.adminPromoCodeService.createPromoCode(promoCodeDto);
     }
 
-    @DeleteMapping("/promo")
-    public String deletePromoCode(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return entity;
+    @GetMapping("promo")
+    public List<ResPromoDto> getPromoCodes() {
+        return this.adminPromoCodeService.getPromoCodes();
     }
-
-    @PutMapping("/promo")
-    public String updatePromoCode(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return entity;
-    }
+    
 
 }
