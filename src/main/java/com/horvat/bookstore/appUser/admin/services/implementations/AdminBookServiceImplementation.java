@@ -20,6 +20,7 @@ import com.horvat.bookstore.book.ImageModel;
 import com.horvat.bookstore.book.ImageRepository;
 import com.horvat.bookstore.book.TagModel;
 import com.horvat.bookstore.book.TagsRepository;
+import com.horvat.bookstore.book.dtos.responses.ResBookDto;
 import com.horvat.bookstore.book.exceptions.BookNotFoundException;
 
 import lombok.extern.log4j.Log4j2;
@@ -96,6 +97,25 @@ public class AdminBookServiceImplementation implements AdminBookService{
         log.info("Found: " + queryResult.size() + "tags");
 
         return ResSearchResult.fromTagList(queryResult);
+    }
+
+    public ResBookDto update(Integer bookId, Integer stock, Float price){
+        Optional<BookModel> entity = this.bookRepository.findById(bookId);
+
+        if(!entity.isPresent()){
+            String message = "Book with id: " + bookId + " Not Found";
+            log.error(message);
+            throw new BookNotFoundException(message);
+        }
+
+        if(stock != null){
+            entity.get().setStock(stock);
+        }
+        if(price != null){
+            entity.get().setPrice(price);   
+        }
+
+        return ResBookDto.fromEntity(this.bookRepository.save(entity.get()));
     }
 
     private Set<AuthorModel> getAuthors(List<Integer> ids){

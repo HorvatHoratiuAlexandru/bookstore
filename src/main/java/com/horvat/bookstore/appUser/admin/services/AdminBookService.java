@@ -5,6 +5,7 @@ import java.util.List;
 import com.horvat.bookstore.appUser.admin.dtos.ReqCreateBookDto;
 import com.horvat.bookstore.appUser.admin.dtos.ResBookUploadedSuccesfullDto;
 import com.horvat.bookstore.appUser.admin.dtos.ResSearchResult;
+import com.horvat.bookstore.book.dtos.responses.ResBookDto;
 
 // should return a link for the book, if the book is uploaded as id 1 then it should return {action: succesfull, link: dns/book/1}
 public interface AdminBookService {
@@ -13,4 +14,6 @@ public interface AdminBookService {
     List<ResSearchResult> searchAuthor(String searchText);
 
     List<ResSearchResult> searchTag(String searchText);
+
+    ResBookDto update(Integer bookId, Integer stock, Float price);
 }

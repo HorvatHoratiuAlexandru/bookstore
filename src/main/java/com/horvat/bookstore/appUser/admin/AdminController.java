@@ -13,6 +13,7 @@ import com.horvat.bookstore.appUser.admin.services.AdminBookService;
 import com.horvat.bookstore.appUser.admin.services.AdminPromoCodeService;
 import com.horvat.bookstore.appUser.admin.services.BookImageUpload;
 import com.horvat.bookstore.book.dtos.responses.ImageInfoDto;
+import com.horvat.bookstore.book.dtos.responses.ResBookDto;
 import com.horvat.bookstore.promoCode.dtos.responses.ResPromoDto;
 
 import java.util.List;
@@ -66,18 +67,11 @@ public class AdminController {
         return response;
     }
 
-    @PutMapping("/book")
-    public String updateBook(@RequestBody String entity) {
-        //TODO: process request
+    @PutMapping("/book/{bookId}")
+    public ResBookDto updateBook(@PathVariable Integer bookId, @RequestParam(required = false) Integer stock, @RequestParam(required = false) Float price) {
+        ResBookDto response = this.adminBookService.update(bookId, stock, price);
         
-        return entity;
-    }
-
-    @DeleteMapping("/book")
-    public String deleteBook(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return entity;
+        return response;
     }
 
     @GetMapping("/orders")
@@ -85,6 +79,13 @@ public class AdminController {
         //TODO: get orders by param processed=true/false, finished=true/false, payed=true/false
         
         return entity;
+    }
+
+    @PutMapping("/orders/{orderId}")
+    public ResBookDto updateOrder(@PathVariable Integer orderId, @RequestParam(required = false) Boolean payed, @RequestParam(required = false) Boolean processed, @RequestParam(required = false) Boolean finished) {
+        ResBookDto response;
+        
+        return response;
     }
 
     @PutMapping("/promo/{code}")

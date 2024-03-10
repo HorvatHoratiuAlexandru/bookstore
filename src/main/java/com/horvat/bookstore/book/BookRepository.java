@@ -20,4 +20,5 @@ public interface BookRepository extends Repository<BookModel, Integer> {
     List<BookModel> findByTagsIn(Iterable<TagModel> tags);
     @Query("SELECT b FROM book b WHERE b.title LIKE %:matchToken% OR b.description LIKE %:matchToken%")
     List<BookModel> searchBooks(String matchToken);
+    void deleteById(Integer id);
 }
