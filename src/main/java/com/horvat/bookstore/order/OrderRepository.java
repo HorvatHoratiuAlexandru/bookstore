@@ -10,6 +10,7 @@ import com.horvat.bookstore.appUser.UserModel;
 
 public interface OrderRepository extends Repository<OrderModel, Integer> {
     OrderModel save(OrderModel order);
+    List<OrderModel> findAll();
     Optional<OrderModel> findById(Integer id);
     List<OrderModel> findByUser(UserModel user);
 }

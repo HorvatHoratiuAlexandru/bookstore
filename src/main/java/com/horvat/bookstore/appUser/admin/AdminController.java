@@ -10,16 +10,17 @@ import com.horvat.bookstore.appUser.admin.dtos.ReqCreateBookDto;
 import com.horvat.bookstore.appUser.admin.dtos.ResBookUploadedSuccesfullDto;
 import com.horvat.bookstore.appUser.admin.dtos.ResSearchResult;
 import com.horvat.bookstore.appUser.admin.services.AdminBookService;
+import com.horvat.bookstore.appUser.admin.services.AdminOrderService;
 import com.horvat.bookstore.appUser.admin.services.AdminPromoCodeService;
 import com.horvat.bookstore.appUser.admin.services.BookImageUpload;
 import com.horvat.bookstore.book.dtos.responses.ImageInfoDto;
 import com.horvat.bookstore.book.dtos.responses.ResBookDto;
+import com.horvat.bookstore.order.dtos.responses.ResOrderDto;
 import com.horvat.bookstore.promoCode.dtos.responses.ResPromoDto;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,8 @@ public class AdminController {
     AdminBookService adminBookService;
     @Autowired
     AdminPromoCodeService adminPromoCodeService;
+    @Autowired
+    AdminOrderService adminOrderService;
 
 
     @PostMapping("/book-image")
@@ -75,17 +78,15 @@ public class AdminController {
     }
 
     @GetMapping("/orders")
-    public String getOrders(@RequestBody String entity) {
-        //TODO: get orders by param processed=true/false, finished=true/false, payed=true/false
+    public List<ResOrderDto> getOrders() {
         
-        return entity;
+        return this.adminOrderService.getAll();
     }
 
     @PutMapping("/orders/{orderId}")
-    public ResBookDto updateOrder(@PathVariable Integer orderId, @RequestParam(required = false) Boolean payed, @RequestParam(required = false) Boolean processed, @RequestParam(required = false) Boolean finished) {
-        ResBookDto response;
-        
-        return response;
+    public List<ResOrderDto> updateOrder(@PathVariable Integer orderId, @RequestParam(required = false) Boolean payed, @RequestParam(required = false) Boolean processed, @RequestParam(required = false) Boolean finished) {
+    
+        return this.adminOrderService.updateStatus(orderId, payed, processed, finished);
     }
 
     @PutMapping("/promo/{code}")
