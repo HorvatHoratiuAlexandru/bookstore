@@ -23,10 +23,11 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 public class BookImageUploadImplementation implements BookImageUpload {
-    public final String STATIC_IMAGE_PATH = "/home/horvat/Documents/bookstore/src/main/resources/static/bookimages";
+    public final String STATIC_IMAGE_PATH = "imageupload";
 
     @Override
     public List<ImageInfoDto> upload(MultipartFile[] files) {
+
         List<String> response = new LinkedList<>();
         for(MultipartFile file : files){
 

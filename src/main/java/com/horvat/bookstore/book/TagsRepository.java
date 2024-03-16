@@ -12,6 +12,7 @@ public interface TagsRepository extends Repository<TagModel, Integer> {
     Set<TagModel> saveAll(Iterable<TagModel> tags);
     Optional<TagModel> findByName(String name);
     Optional<TagModel> findById(Integer id);
+    List<TagModel> findAll();
 
     @Query("SELECT t FROM TagModel t WHERE t.name LIKE :matchToken%")
     List<TagModel> search(String matchToken);

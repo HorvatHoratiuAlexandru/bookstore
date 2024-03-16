@@ -15,7 +15,25 @@ public class FileUtils {
         File folder = new File(path);
 
         if(!folder.isDirectory()){
-            System.out.println("Specified path is not a directory");
+            System.out.println("Specified path is not a directory new");
+            System.out.println(path);
+            String currentDir = System.getProperty("user.dir");
+            System.out.println("Current working directory: " + currentDir);
+
+            folder = new File(currentDir);
+
+            File[] files = folder.listFiles();
+
+            if (files != null) {
+                System.out.println("Contents of the directory:");
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        System.out.println("Directory: " + file.getName());
+                    } else {
+                        System.out.println("File: " + file.getName());
+                    }
+                }
+            }
             //throw an error
             return null;
         }

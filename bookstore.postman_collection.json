@@ -1,0 +1,744 @@
+{
+	"info": {
+		"_postman_id": "27a37c32-75b6-4efc-b647-ce70d695415e",
+		"name": "bookstore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22525403"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"user@email.com\",\n    \"fullName\": \"Test user\",\n    \"password\": \"Tuser123!\",\n    \"repeatPassword\": \"Tuser123!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/user/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"user@email.com\",\n    \"password\": \"Tuser123!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refreshTokens",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/token",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/7885c7a1-84b3-40e1-9ab8-8812062545cd",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"7885c7a1-84b3-40e1-9ab8-8812062545cd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateUser",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullName\": \"updated name\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/user/0907e745-f333-4224-a038-7b7d3bf3ea05",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"0907e745-f333-4224-a038-7b7d3bf3ea05"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBooks",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/book?tags=FANTASY",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book"
+					],
+					"query": [
+						{
+							"key": "tags",
+							"value": "FANTASY"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBook",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/book/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "searchBook",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/book/search?search=ho",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"search"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "ho"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addBookToUserWishList",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/63ddf72f-f5f0-4e39-bdcc-c3cada32f808/wishlist/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"63ddf72f-f5f0-4e39-bdcc-c3cada32f808",
+						"wishlist",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUserWishList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/63ddf72f-f5f0-4e39-bdcc-c3cada32f808/wishlist",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"63ddf72f-f5f0-4e39-bdcc-c3cada32f808",
+						"wishlist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeBookFromWishList",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/63ddf72f-f5f0-4e39-bdcc-c3cada32f808/wishlist/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"63ddf72f-f5f0-4e39-bdcc-c3cada32f808",
+						"wishlist",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clearWishList",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/63ddf72f-f5f0-4e39-bdcc-c3cada32f808/wishlist",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"63ddf72f-f5f0-4e39-bdcc-c3cada32f808",
+						"wishlist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validatePromoCode",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/52/promo/REDUCERE21",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"52",
+						"promo",
+						"REDUCERE21"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "placeOrder",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"address\": \"123 Main St\",\n  \"promoCode\": \"SEX123\",\n  \"items\": {\n    \"17\": 2,\n    \"15\": 3\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/user/7885c7a1-84b3-40e1-9ab8-8812062545cd/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"7885c7a1-84b3-40e1-9ab8-8812062545cd",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "payOrder",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"billingName\": \"test user\",\n\"cardNumber\": \"1234567\",\n\"expDate\": \"11/24\",\n\"cardCode\": \"691\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/user/63f2b9b7-d67c-4959-a0ed-f3b590536148/orders/53/process",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"63f2b9b7-d67c-4959-a0ed-f3b590536148",
+						"orders",
+						"53",
+						"process"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrder",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/21d664ab-f609-455a-91b9-2ec93ba2f07a/orders/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"21d664ab-f609-455a-91b9-2ec93ba2f07a",
+						"orders",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/63f2b9b7-d67c-4959-a0ed-f3b590536148/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"63f2b9b7-d67c-4959-a0ed-f3b590536148",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBookReviews",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/book/2/review",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"2",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addReview",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"grade\": \"poor\",\n    \"text\": \"Bad read, i dont reccomend it\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/book/10/review",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"10",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateReview",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"grade\": \"excellent\",\n    \"text\": \"sukisuki\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/book/4/review",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"4",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteReview",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "adminUploadImage",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "testImage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/book/image/3uIcxM@R9zdPlM$jsmGg3QTo.jpg",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"image",
+						"3uIcxM@R9zdPlM$jsmGg3QTo.jpg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adminSearchTags",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/admin/search/tag",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"search",
+						"tag"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adminSearchAuthors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/admin/search/author?search=ps",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"search",
+						"author"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "ps"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adminCreateBook",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Lord of the Rings Test\",\n  \"description\": \"This is a test book description.\",\n  \"pageNumber\": 250,\n  \"price\": 29.99,\n  \"stock\": 100,\n  \"newAuthors\": [\"New Test Author\"],\n  \"tags\": [6],\n  \"authors\": [59],\n  \"images\": [\"r0EiVGqB53o9*Eaq2$dEwqBd.jpg\", \"1QRRV&bOWnAxF3*iF4K&RQ5Z.jpg\"]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/admin/book",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateBookPriceOrStock",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/book/17?price=13.3&stock=40",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"17"
+					],
+					"query": [
+						{
+							"key": "price",
+							"value": "13.3"
+						},
+						{
+							"key": "stock",
+							"value": "40"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adminCreatePromo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"SEX123\",\n    \"discount\": 0.2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/admin/promo",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"promo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adminGetPromoCodes",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "adminSetExpired",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "updateOrderStatuses",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/admin/orders/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"orders",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllOrders",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJcImhvcnZhdGJvb2tzdG9yZVwiIiwiaWQiOiIyMDI0OTA4Mi03NDljLTQyNGQtOGU2OS05OWQxNWY5NmUyZTkiLCJ1c2VybmFtZSI6InVzZXJAZW1haWwuY29tIiwibmFtZSI6IlRlc3QgdXNlciIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcxMDU5MDgzMywiZXhwIjoxNzEwNTkzNTMzfQ.fw2jaZrkYmMRk4jtj56QruPGxNhejp6dov0Q9SLrAMQ",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

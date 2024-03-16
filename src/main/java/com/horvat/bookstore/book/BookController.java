@@ -10,9 +10,16 @@ import com.horvat.bookstore.configs.security.JwtAuthentication;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.PathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/book")
 public class BookController {
+    public final String STATIC_IMAGE_PATH = "imageupload";
     @Autowired
     private BookService bookService;
     @Autowired
@@ -90,15 +98,25 @@ public class BookController {
         return response;
     }
     
-    
+    @GetMapping("/image/{filename}")
+    public ResponseEntity<Resource> downloadImages(@PathVariable String filename) {
 
+        String currentDirectory = System.getProperty("user.dir");
+        Path directory = Paths.get(currentDirectory);
+        log.info("directory path: " + directory.toString());
 
-    @PostMapping("/admintest")
-    public String postAdminTest() {
-        log.info("ADMIN BOOK ENDPOINT");
-        return "hello admin from book endpoint";
+        Path targetPath = directory.resolve(STATIC_IMAGE_PATH).resolve(filename);
+        log.info("searching for file in: " + targetPath.toString());
+
+        log.info("File exists: " + Files.exists(targetPath));
+        log.info("File is directory: " + Files.isDirectory(targetPath));
+        log.info("Trying to get: " + filename);
+        if (targetPath==null || !Files.exists(targetPath)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(new PathResource(targetPath));
     }
-    
-    
     
 }

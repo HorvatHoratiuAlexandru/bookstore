@@ -17,6 +17,8 @@ services:
       - bookstore-db-volume:/var/lib/mysql
   app:
     build: .
+    depends_on:
+      - db
     restart: always
     ports:
       - "8080:8080"

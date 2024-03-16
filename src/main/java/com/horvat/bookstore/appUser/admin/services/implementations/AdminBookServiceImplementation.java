@@ -152,7 +152,9 @@ public class AdminBookServiceImplementation implements AdminBookService{
 
     private Set<AuthorModel> getNewAuthors(List<String> names){
         Set<AuthorModel> newAuthors = new HashSet<>();
-
+        if(names == null){
+            return newAuthors;
+        }
         for(String name: names){
             AuthorModel newAuthor = new AuthorModel();
             newAuthor.setName(name);
