@@ -2,6 +2,7 @@ package com.horvat.bookstore.appUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController()
 @RequestMapping("/user")
 @Log4j2
+@CrossOrigin("http://localhost:5174")
 public class UserController {
     private final UserService userService;
     private final CustomJwtRetrieveTokens retrieveTokensService;

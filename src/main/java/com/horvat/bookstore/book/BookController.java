@@ -21,6 +21,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Log4j2
 @RestController
 @RequestMapping("/book")
+@CrossOrigin("http://localhost:5174")
 public class BookController {
     public final String STATIC_IMAGE_PATH = "imageupload";
     @Autowired
@@ -98,6 +100,7 @@ public class BookController {
         return response;
     }
     
+    @CrossOrigin("http://localhost:5174")
     @GetMapping("/image/{filename}")
     public ResponseEntity<Resource> downloadImages(@PathVariable String filename) {
 

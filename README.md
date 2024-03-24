@@ -2,7 +2,9 @@
 
 This is a learning project for building a bookstore application using Spring Boot for the backend and React for the frontend.
 
-### Frontend tasks have not been initiated.
+### Frontend
+
+For the frontend check this repo [here](https://github.com/HorvatHoratiuAlexandru/bookstore_frontend)
 
 ## How to Start
 
